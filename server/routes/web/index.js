@@ -1,0 +1,18 @@
+module.exports = app => {
+  const express = require('express')
+  const router = express.Router()
+  const webController = require('../../controllers/web')
+
+  router.post('/register', webController.register)
+  router.post('/login', webController.login)
+
+  router.get('/user', webController.findUser, webController.getUser)
+
+  router.get('/list/all', webController.findUser, webController.getLists)
+  router.post('/list', webController.findUser, webController.createList, webController.getLists)
+
+  router.get('/list/:id/task/all', webController.getTasks)
+  router.post('/list/:id/task', webController.addTask)
+
+  app.use('/web/api', router)
+}
