@@ -3,14 +3,7 @@
     <ul>
       <ListItem v-for="listItem in listItems" :key="listItem.id" :list-item="listItem"/>
     </ul>
-
-    <label for="list">New List:
-      <input type="text" id="list" name="name" v-model="model.name"
-        @keyup.enter="addList">
-    </label>
-
     <div @click="seen = true">添加清单</div>
-
     <ListCreate :seen="seen" @closeModal="seen = false"/>
   </div>
 </template>
@@ -24,9 +17,6 @@ export default {
   name: 'List',
   data() {
     return {
-      model: {
-        name: '',
-      },
       seen: false,
     }
   },
@@ -34,12 +24,7 @@ export default {
     ...mapGetters(['listItems'])
   },
   methods: {
-    ...mapActions(['getListItems', 'addListItem']),
-
-    async addList() {
-      await this.$store.dispatch('addListItem', this.model)
-      this.model.name = ''
-    },
+    ...mapActions(['getListItems']),
   },
   created() {
     this.$store.dispatch('getListItems')
@@ -47,7 +32,7 @@ export default {
   components: {
     ListItem,
     ListCreate,
-  }
+  },
 }
 </script>
 
