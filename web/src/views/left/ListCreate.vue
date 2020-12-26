@@ -1,0 +1,133 @@
+<template>
+  <div class="popup-cover" v-show="seen">
+    <div class="popup">
+      <div class="popup-header">
+        <h3>添加清单</h3>
+        <div class="close" @click="$emit('closeModal')">&times;</div>
+      </div>
+      <div class="popup-body">
+        <label for="list-content">
+          <input type="text" id="list-content" name="name" placeholder="名称"
+            v-model="model.name">
+        </label>
+      </div>
+      <div class="popup-footer">
+        <button @click="$emit('closeModal')">关闭</button>
+        <button @click="addList">保存</button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { mapActions } from 'vuex'
+
+export default {
+  name: 'ListCreate',
+  props: ['seen'],
+  data() {
+    return {
+      model: {
+        name: '',
+      },
+    }
+  },
+  methods: {
+    ...mapActions(['addListItem']),
+
+    async addList() {
+      await this.$store.dispatch('addListItem', this.model)
+      this.model.name = ''
+      this.$emit('closeModal')
+    },
+  }
+}
+</script>
+
+<style scoped>
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.popup-cover {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.popup {
+  background-color: #fefefe;
+  box-shadow: 0 2px 11px 0 rgba(0,0,0,.16);
+  margin: 15% auto;
+  border-radius: 4px;
+  width: 508px;
+}
+
+.popup-header {
+  height: 58px;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.popup-body {
+  padding: 16px;
+}
+#list-content {
+  width: 450px;
+  height: 36px;
+  padding-left: 12px;
+  outline: 0;
+  border-radius: 4px;
+  font-size: 14px;
+  border: 1px solid rgba(0, 0, 0, 0.14);
+}
+
+.popup-footer {
+  display: flex;
+  padding: 16px 24px;
+  justify-content: flex-end;
+}
+button {
+  width: 120px;
+  height: 32px;
+  font-size: 15px;
+  margin: 0 0 0 12px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  outline: none;
+}
+button:nth-of-type(1) {
+  background-color: rgba(46,73,136,.08);
+}
+button:nth-of-type(2) {
+  background-color: #b1bdeb;
+  color: #fefefe;
+}
+button:nth-of-type(1):hover {
+  background-color: rgba(46,73,136,.12);
+}
+button:nth-of-type(2):hover {
+  background-color: #5670d3;
+}
+
+</style>

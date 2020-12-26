@@ -8,12 +8,17 @@
       <input type="text" id="list" name="name" v-model="model.name"
         @keyup.enter="addList">
     </label>
+
+    <div @click="seen = true">添加清单</div>
+
+    <ListCreate :seen="seen" @closeModal="seen = false"/>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import ListItem from '@/views/left/ListItem'
+import ListCreate from '@/views/left/ListCreate'
 
 export default {
   name: 'List',
@@ -21,7 +26,8 @@ export default {
     return {
       model: {
         name: '',
-      }
+      },
+      seen: false,
     }
   },
   computed: {
@@ -40,6 +46,7 @@ export default {
   },
   components: {
     ListItem,
+    ListCreate,
   }
 }
 </script>
