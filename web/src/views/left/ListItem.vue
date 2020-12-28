@@ -1,5 +1,6 @@
 <template>
-  <li @click="getTasks" @contextmenu.stop.prevent="showMenu">{{ listItem.name }}</li>
+  <li @click="getTasks" :id="listItem.id"
+      @contextmenu.stop.prevent="showMenu">{{ listItem.name }}</li>
 </template>
 
 <script>
