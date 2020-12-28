@@ -3,7 +3,7 @@
     <div class="popup">
       <div class="popup-header">
         <h3>添加清单</h3>
-        <div class="close" @click="$emit('closeModal')">&times;</div>
+        <div class="close" @click="">&times;</div>
       </div>
       <div class="popup-body">
         <label for="list-content">
@@ -12,7 +12,7 @@
         </label>
       </div>
       <div class="popup-footer">
-        <button @click="$emit('closeModal')">关闭</button>
+        <button @click="">关闭</button>
         <button @click="addList">保存</button>
       </div>
     </div>
