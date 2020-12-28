@@ -25,6 +25,10 @@ const actions = {
   },
   updateSelected({ commit }, listId) {
     commit('UPDATE_SELECTED', listId)
+  },
+  async modifyListItem({ commit }, listItem) {
+    const res = await http.patch('/list', listItem)
+    commit('UPDATE_LIST_ITEMS', res.data)
   }
 }
 
