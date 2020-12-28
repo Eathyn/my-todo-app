@@ -15,9 +15,6 @@ export default {
   computed: {
     ...mapGetters(['listItemMenu']),
   },
-  methods: {
-
-  }
 }
 </script>
 
