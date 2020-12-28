@@ -5,14 +5,12 @@
     </ul>
     <ListItemMenu/>
     <div @click="seen = true">添加清单</div>
-    <ListPopup :seen="seen" @closeModal="seen = false"/>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import ListItem from '@/views/left/ListItem'
-import ListPopup from '@/views/left/ListPopup'
 import ListItemMenu from '@/views/left/ListItemMenu'
 
 export default {
@@ -33,7 +31,6 @@ export default {
   },
   components: {
     ListItem,
-    ListPopup,
     ListItemMenu,
   },
 }
