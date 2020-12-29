@@ -2,29 +2,32 @@
   <div class="popup-cover" v-show="seen">
     <div class="popup">
       <div class="popup-header">
-        <h3>添加清单</h3>
-        <div class="close" @click="">&times;</div>
+        <h3>{{ listItem ? '编辑' : '新建' }}清单</h3>
+        <div class="close" @click="closePopup">&times;</div>
       </div>
       <div class="popup-body">
         <label for="list-content">
-          <input type="text" id="list-content" name="name" placeholder="名称"
+          <input v-if="listItem" type="text" id="list-content" name="name"
+                 v-model="model.name">
+          <input v-else type="text" id="list-content" name="name" placeholder="名称"
             v-model="model.name">
         </label>
       </div>
       <div class="popup-footer">
-        <button @click="">关闭</button>
-        <button @click="addList">保存</button>
+        <button @click="closePopup">关闭</button>
+
+        <button v-if="listItem" @click="modifyList">修改</button>
+        <button v-else @click="addList">保存</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'ListCreate',
-  props: ['seen'],
   data() {
     return {
       model: {
@@ -32,15 +35,32 @@ export default {
       },
     }
   },
+  computed: {
+    ...mapGetters(['seen', 'listItem']),
+  },
   methods: {
-    ...mapActions(['addListItem']),
+    ...mapActions(['addListItem', 'modifyListItem']),
+
+    closePopup() {
+      this.$store.dispatch('updateSeen', false)
+    },
 
     async addList() {
       await this.$store.dispatch('addListItem', this.model)
+      await this.$store.dispatch('updateSeen', false)
       this.model.name = ''
-      this.$emit('closeModal')
     },
-  }
+    async modifyList() {
+      const listItem = {
+        id: this.listItem.id,
+        name: this.model.name,
+      }
+
+      await this.$store.dispatch('modifyListItem', listItem)
+      await this.$store.dispatch('updateSeen', false)
+      this.model.name = ''
+    },
+  },
 }
 </script>
 
