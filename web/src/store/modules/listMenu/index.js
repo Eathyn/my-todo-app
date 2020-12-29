@@ -11,7 +11,13 @@ const mutations = {
 const actions = {
   updateListItemMenu({ commit }, listItemMenu) {
     commit('UPDATE_LIST_ITEM_MENU', listItemMenu)
-  }
+  },
+  showMenu({ commit }, listItemMenu) {
+    commit('UPDATE_LIST_ITEM_MENU', listItemMenu)
+  },
+  closeMenu({ commit }, listItemMenu) {
+    commit('UPDATE_LIST_ITEM_MENU', listItemMenu)
+  },
 }
 
 const getters = {

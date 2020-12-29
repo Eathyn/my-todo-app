@@ -10,7 +10,8 @@ export default {
   name: 'ListItem',
   props: ['listItem'],
   methods: {
-    ...mapActions(['getTaskItems', 'updateSelected', 'updateListItemMenu']),
+    ...mapActions(['getTaskItems', 'updateSelected', 'updateListItemMenu',
+      'showMenu']),
 
     getTasks() {
       this.$store.dispatch('updateSelected', this.listItem.id)
@@ -18,11 +19,19 @@ export default {
     },
 
     showMenu(event) {
-      this.$store.dispatch('updateListItemMenu', {
+      const menu = {
         left: event.pageX,
         top: event.pageY,
         display: 'block',
-      })
+      }
+      this.$store.dispatch('updateListItemMenu', menu)
+
+      // for edit popup
+      const listItem = {
+        id: this.listItem.id,
+        name: this.listItem.name,
+      }
+      this.$store.dispatch('updateListItem', listItem)
     },
   },
   computed: {
