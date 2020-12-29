@@ -1,9 +1,6 @@
 const state = {
   seen: false,
-  listItem: {
-    id: '',
-    name: '',
-  },
+  listItem: null,
 }
 
 const mutations = {

@@ -4,7 +4,7 @@
       <ListItem v-for="listItem in listItems" :key="listItem.id" :list-item="listItem"/>
     </ul>
     <ListItemMenu/>
-    <div @click="seen = true">添加清单</div>
+    <div id="listAdd" @click="showListPopup">添加清单</div>
   </div>
 </template>
 
@@ -15,16 +15,15 @@ import ListItemMenu from '@/views/left/ListItemMenu'
 
 export default {
   name: 'List',
-  data() {
-    return {
-      seen: false,
-    }
-  },
   computed: {
-    ...mapGetters(['listItems'])
+    ...mapGetters(['listItems', 'listItem'])
   },
   methods: {
-    ...mapActions(['getListItems']),
+    ...mapActions(['getListItems', 'updateSeen', 'updateListItem']),
+    showListPopup() {
+      this.$store.dispatch('updateSeen', true)
+      this.$store.dispatch('updateListItem', null)
+    },
   },
   created() {
     this.$store.dispatch('getListItems')
@@ -44,5 +43,17 @@ div:hover {
 ul {
   padding: 12px;
   margin: 0;
+}
+
+#listAdd {
+  height: 36px;
+  padding: 0 12px;
+  margin: 0 12px;
+  color: #fefefe;
+  line-height: 2.1;
+  border-radius: 4px;
+}
+#listAdd:hover {
+  background-color: #6275bf;
 }
 </style>
