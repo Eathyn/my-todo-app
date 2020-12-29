@@ -72,6 +72,23 @@ exports.getLists = async (req, res) => {
   res.json(lists)
 }
 
+exports.modifyList = async (req, res, next) => {
+  const listItem = req.body
+
+  const list = await List.findById(listItem.id)
+  list.name = listItem.name
+  await list.save()
+
+  await next()
+}
+
+exports.deleteList = async (req, res, next) => {
+  const listId = req.params.id
+  await List.findByIdAndDelete(listId)
+
+  await next()
+}
+
 /* ---------- Task ---------- */
 
 exports.getTasks = async (req, res) => {

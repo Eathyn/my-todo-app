@@ -10,6 +10,8 @@ module.exports = app => {
 
   router.get('/list/all', webController.findUser, webController.getLists)
   router.post('/list', webController.findUser, webController.createList, webController.getLists)
+  router.patch('/list', webController.findUser, webController.modifyList, webController.getLists)
+  router.delete('/list/:id', webController.findUser, webController.deleteList, webController.getLists)
 
   router.get('/list/:id/task/all', webController.getTasks)
   router.post('/list/:id/task', webController.addTask)

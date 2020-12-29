@@ -29,6 +29,10 @@ const actions = {
   async modifyListItem({ commit }, listItem) {
     const res = await http.patch('/list', listItem)
     commit('UPDATE_LIST_ITEMS', res.data)
+  },
+  async deleteListItem({ commit }, listItem) {
+    const res = await http.delete(`/list/${listItem.id}`)
+    commit('UPDATE_LIST_ITEMS', res.data)
   }
 }
 

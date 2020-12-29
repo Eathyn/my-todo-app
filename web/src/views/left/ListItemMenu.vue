@@ -2,18 +2,43 @@
   <div class="menu"
      :style="{ left: this.listItemMenu.left + 'px', top: this.listItemMenu.top + 'px',
       display: this.listItemMenu.display }">
-    <div class="menu-option">编辑</div>
-    <div class="menu-option" >删除</div>
+    <div class="menu-option" @click="showListPopup">编辑</div>
+    <div class="menu-option" @click="deleteList">删除</div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'ListItemMenu',
   computed: {
-    ...mapGetters(['listItemMenu']),
+    ...mapGetters(['listItemMenu', 'listItem', 'taskItems']),
+  },
+  methods: {
+    ...mapActions(['deleteListItem', 'deleteTaskItems']),
+
+    closeMenu() {
+      const menu = {
+        left: 0,
+        top: 0,
+        display: 'none',
+      }
+      this.$store.dispatch('closeMenu', menu)
+    },
+
+    showListPopup() {
+      this.$store.dispatch('updateSeen', true)
+      this.closeMenu()
+    },
+    deleteList() {
+      this.$store.dispatch('deleteListItem', this.listItem)
+      this.$store.dispatch('deleteTaskItems')
+      this.closeMenu()
+    },
+  },
+  created() {
+    window.addEventListener('click', this.closeMenu)
   },
 }
 </script>
