@@ -4,7 +4,12 @@
       <ListItem v-for="listItem in listItems" :key="listItem.id" :list-item="listItem"/>
     </ul>
     <ListItemMenu/>
-    <div id="listAdd" @click="showListPopup">添加清单</div>
+    <div id="listAdd" @click="showListPopup">
+      <svg class="icon" aria-hidden="true">
+        <use xlink:href="#icon-add"></use>
+      </svg>
+      添加清单
+    </div>
   </div>
 </template>
 
@@ -55,5 +60,12 @@ ul {
 }
 #listAdd:hover {
   background-color: #6275bf;
+}
+.icon {
+  width: 1.5em;
+  height: 1.5em;
+  vertical-align: -0.35em;
+  fill: currentColor;
+  overflow: hidden;
 }
 </style>
