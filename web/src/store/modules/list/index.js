@@ -3,6 +3,7 @@ import http from '@/http'
 const state = {
   listItems: [],
   selected: '',
+  selectedList: null,
 }
 
 const mutations = {
@@ -11,7 +12,10 @@ const mutations = {
   },
   UPDATE_SELECTED(state, listId) {
     state.selected = listId
-  }
+  },
+  UPDATE_SELECTED_LIST(state) {
+    state.selectedList = state.listItems.find(listItem => listItem.id === state.selected)
+  },
 }
 
 const actions = {
@@ -33,12 +37,16 @@ const actions = {
   async deleteListItem({ commit }, listItem) {
     const res = await http.delete(`/list/${listItem.id}`)
     commit('UPDATE_LIST_ITEMS', res.data)
-  }
+  },
+  updateSelectedList({ commit }) {
+    commit('UPDATE_SELECTED_LIST')
+  },
 }
 
 const getters = {
   listItems: state => state.listItems,
   selected: state => state.selected,
+  selectedList: state => state.selectedList,
 }
 
 const listModule = {
