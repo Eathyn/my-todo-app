@@ -1,5 +1,6 @@
 <template>
-  <li @click="getTasks" :id="listItem.id" @contextmenu.stop.prevent="showMenu">
+  <li @click="getTasks" :id="listItem.id" @contextmenu.stop.prevent="showMenu"
+      :tabindex="listItem.id">
     <span>
       <svg class="icon" aria-hidden="true">
         <use xlink:href="#icon-category"></use>
@@ -56,9 +57,16 @@ li {
   list-style-type: none;
   line-height: 2.1;
   border-radius: 4px;
+  outline: none;
 }
 li:hover {
-  background-color: #6275bf;
+  background-color: rgba(0,0,0,0.06);
+}
+li:active {
+  background-color: rgba(0,0,0,0.12);
+}
+li:focus {
+  background-color: rgba(0, 0, 0, 0.2);
 }
 .icon {
   width: 1.5em;
