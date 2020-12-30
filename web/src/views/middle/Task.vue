@@ -23,5 +23,8 @@ export default {
 </script>
 
 <style scoped>
-
+ul {
+  padding: 0;
+  margin: 16px;
+}
 </style>
