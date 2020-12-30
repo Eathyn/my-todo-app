@@ -24,6 +24,7 @@ export default {
     getTasks() {
       this.$store.dispatch('updateSelected', this.listItem.id)
       this.$store.dispatch('getTaskItems', this.selected)
+      this.$store.dispatch('updateSelectedList')
     },
 
     showMenu(event) {
