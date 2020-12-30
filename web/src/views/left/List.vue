@@ -17,6 +17,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import ListItem from '@/views/left/ListItem'
 import ListItemMenu from '@/views/left/ListItemMenu'
+import listAddIcon from '@/assets/icons/listAdd'
 
 export default {
   name: 'List',
