@@ -11,6 +11,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import listIcon from '@/assets/icons/list'
 
 export default {
   name: 'ListItem',
