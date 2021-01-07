@@ -1,5 +1,5 @@
 <template>
-  <div id="taskOptions">
+  <div id="taskOptions" :style="{ display: this.display }">
     <div id="date">
       <label for="dateInput">日期：</label>
       <input type="date" id="dateInput" name="date" min="2021-01-01" max="2030-12-31">
@@ -20,7 +20,7 @@
     </div>
 
     <div id="footer">
-      <button>清除</button>
+      <button @click="cleanOptions">清除</button>
       <button @click="setOptions">确定</button>
     </div>
   </div>
@@ -31,26 +31,35 @@ import { mapActions } from 'vuex'
 
 export default {
   name: 'TaskOptions',
+  props: ['display'],
   methods: {
     ...mapActions(['updateTaskOptions']),
 
     setOptions() {
-      const date = document.querySelector('input[id="dateInput"]').value
-      const startingTime = document.querySelector('input[id="startingTimeInput"]').value
-      const endTime = document.querySelector('input[id="endTimeInput"]').value
-      const duration = document.querySelector('input[id="durationInput"]').value
+      const dateInput = document.querySelector('input[id="dateInput"]')
+      const startingTimeInput = document.querySelector('input[id="startingTimeInput"]')
+      const endTimeInput = document.querySelector('input[id="endTimeInput"]')
+      const durationInput = document.querySelector('input[id="durationInput"]')
 
       const taskOptions = {
-        date,
+        date: dateInput.value,
         period: {
-          startingTime,
-          endTime,
+          startingTime: startingTimeInput.value,
+          endTime: endTimeInput.value,
         },
-        duration,
+        duration: durationInput.value,
       }
-
       this.$store.dispatch('updateTaskOptions', taskOptions)
-    }
+
+      // set inputs to default values
+      dateInput.value = ''
+      startingTimeInput.value = ''
+      endTimeInput.value = ''
+      durationInput.value = ''
+
+      // close taskOptions panel
+      this.$emit('closeTaskOptionsPanel')
+    },
   }
 }
 </script>

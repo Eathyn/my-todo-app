@@ -2,10 +2,10 @@
   <div id="taskAdder">
     <input type="text" name="name" v-model="model.name"
            @keyup.enter="addTask" placeholder="添加任务，回车即可保存">
-    <svg class="icon" aria-hidden="true">
+    <svg class="icon" aria-hidden="true" @click="toggleTaskOptions">
       <use xlink:href="#icon-calendar-fill"></use>
     </svg>
-    <TaskOptions/>
+    <TaskOptions :display="display" @closeTaskOptionsPanel="toggleTaskOptions"/>
   </div>
 </template>
 
@@ -23,7 +23,8 @@ export default {
     return {
       model: {
         name: '',
-      }
+      },
+      display: 'none',
     }
   },
   methods: {
@@ -35,12 +36,18 @@ export default {
         model: this.model,
         taskOptions: this.taskOptions,
       })
+
+      // set to default values
       this.model.name = ''
+      this.$store.dispatch('updateTaskOptions', null)
+    },
+    toggleTaskOptions() {
+      this.display = this.display === 'none' ? 'block' : 'none'
     },
   },
   computed: {
     ...mapGetters(['selected', 'taskOptions'])
-  }
+  },
 }
 </script>
 
