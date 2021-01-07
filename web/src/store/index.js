@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import user from '@/store/modules/user'
-import list from '@/store/modules/list'
-import listMenu from '@/store/modules/listMenu'
-import listPopup from '@/store/modules/listPopup'
-import task from '@/store/modules/task'
-import taskMenu from '@/store/modules/taskMenu'
+import user from './modules/user'
+import list from './modules/list'
+import listMenu from './modules/listMenu'
+import listPopup from './modules/listPopup'
+import task from './modules/task'
+import taskMenu from './modules/taskMenu'
 
 Vue.use(Vuex)
 
