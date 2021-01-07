@@ -25,7 +25,11 @@ const actions = {
     commit('UPDATE_TASK_ITEMS', res.data)
   },
   async addTaskItem({ commit }, payload) {
-    const res = await http.post(`/list/${payload.selected}/task`, payload.model)
+    const task = {
+      name: payload.model.name,
+      options: payload.taskOptions,
+    }
+    const res = await http.post(`/list/${payload.selected}/task`, task)
     commit('UPDATE_TASK_ITEMS', res.data)
   },
   deleteTaskItems({ commit }) {
