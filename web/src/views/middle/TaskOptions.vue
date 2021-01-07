@@ -60,6 +60,22 @@ export default {
       // close taskOptions panel
       this.$emit('closeTaskOptionsPanel')
     },
+
+    cleanOptions() {
+      const dateInput = document.querySelector('input[id="dateInput"]')
+      const startingTimeInput = document.querySelector('input[id="startingTimeInput"]')
+      const endTimeInput = document.querySelector('input[id="endTimeInput"]')
+      const durationInput = document.querySelector('input[id="durationInput"]')
+
+      // set inputs to default values
+      dateInput.value = ''
+      startingTimeInput.value = ''
+      endTimeInput.value = ''
+      durationInput.value = ''
+
+      // close taskOptions panel
+      this.$emit('closeTaskOptionsPanel')
+    },
   }
 }
 </script>
