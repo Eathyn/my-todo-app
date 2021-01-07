@@ -7,9 +7,9 @@
 </template>
 
 <script>
-import Task from '@/views/middle/Task'
-import TaskAdder from '@/views/middle/TaskAdder'
-import ListTitle from '@/views/middle/ListTitle'
+import Task from './Task'
+import TaskAdder from './TaskAdder'
+import ListTitle from './ListTitle'
 
 export default {
   name: 'MiddleView',
