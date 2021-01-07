@@ -92,7 +92,7 @@ exports.deleteList = async (req, res, next) => {
 /* ---------- Task ---------- */
 
 exports.getTasks = async (req, res) => {
-  let list = await List.findById(req.params.id)
+  let list = await List.findById(req.params.listId)
   list = await List.populate(list, 'tasks')
 
   const tasks = list.tasks.map(task => ({
@@ -104,7 +104,7 @@ exports.getTasks = async (req, res) => {
 }
 
 exports.addTask = async (req, res) => {
-  let list = await List.findById(req.params.id)
+  let list = await List.findById(req.params.listId)
   const task = await Task.create(req.body)
   await list.tasks.push(task._id)
   await list.save()
@@ -117,4 +117,20 @@ exports.addTask = async (req, res) => {
   }))
 
   res.json(tasks)
+}
+
+exports.deleteTask = async (req, res, next) => {
+  const listId = req.params.listId
+  const taskId = req.params.taskId
+
+  // delete task id reference from list.tasks
+  const list = await List.findById(listId)
+  const index = list.tasks.indexOf(taskId)
+  list.tasks.splice(index, 1)
+  await list.save()
+
+  // delete task from tasks
+  await Task.findByIdAndDelete(taskId)
+
+  next()
 }

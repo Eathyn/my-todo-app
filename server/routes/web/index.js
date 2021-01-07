@@ -13,8 +13,9 @@ module.exports = app => {
   router.patch('/list', webController.findUser, webController.modifyList, webController.getLists)
   router.delete('/list/:id', webController.findUser, webController.deleteList, webController.getLists)
 
-  router.get('/list/:id/task/all', webController.getTasks)
-  router.post('/list/:id/task', webController.addTask)
+  router.get('/list/:listId/task/all', webController.getTasks)
+  router.post('/list/:listId/task', webController.addTask)
+  router.delete('/list/:listId/task/:taskId', webController.deleteTask, webController.getTasks)
 
   app.use('/web/api', router)
 }
