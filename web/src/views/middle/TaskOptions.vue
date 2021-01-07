@@ -21,24 +21,36 @@
 
     <div id="footer">
       <button>清除</button>
-      <button>确定</button>
+      <button @click="setOptions">确定</button>
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'TaskOptions',
-  data() {
-    return {
-      date: this.dateOfToday()
-    }
-  },
   methods: {
-    dateOfToday() {
-      const date = new Date()
-      return `${date.getUTCFullYear()}-${date.getUTCMonth()}-${date.getUTCDate()}`
-    },
+    ...mapActions(['updateTaskOptions']),
+
+    setOptions() {
+      const date = document.querySelector('input[id="dateInput"]').value
+      const startingTime = document.querySelector('input[id="startingTimeInput"]').value
+      const endTime = document.querySelector('input[id="endTimeInput"]').value
+      const duration = document.querySelector('input[id="durationInput"]').value
+
+      const taskOptions = {
+        date,
+        period: {
+          startingTime,
+          endTime,
+        },
+        duration,
+      }
+
+      this.$store.dispatch('updateTaskOptions', taskOptions)
+    }
   }
 }
 </script>
@@ -47,8 +59,13 @@ export default {
 #taskOptions {
   width: 300px;
   padding: 20px 30px;
+  background-color: #ffffff;
   box-shadow: 0 2px 6px rgba(0,0,0,.16), 0 3px 20px rgba(0,0,0,.16);
   border-radius: 3px;
+  position: fixed;
+  left: 610px;
+  top: 130px;
+  z-index: 1;
 }
 #date, #period, #duration {
   margin: 0 0 25px 0;

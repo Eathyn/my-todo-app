@@ -2,7 +2,7 @@
   <div id="taskAdder">
     <input type="text" name="name" v-model="model.name"
            @keyup.enter="addTask" placeholder="添加任务，回车即可保存">
-    <svg class="icon" aria-hidden="true" @click="setTaskOptions">
+    <svg class="icon" aria-hidden="true">
       <use xlink:href="#icon-calendar-fill"></use>
     </svg>
     <TaskOptions/>
@@ -33,18 +33,13 @@ export default {
       this.$store.dispatch('addTaskItem', {
         selected: this.selected,
         model: this.model,
+        taskOptions: this.taskOptions,
       })
       this.model.name = ''
     },
-    showTaskOptions() {
-
-    },
-    setTaskOptions() {
-
-    }
   },
   computed: {
-    ...mapGetters(['selected'])
+    ...mapGetters(['selected', 'taskOptions'])
   }
 }
 </script>
