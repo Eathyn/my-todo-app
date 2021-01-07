@@ -4,11 +4,13 @@
       <TaskItem v-for="taskItem in taskItems" :key="taskItem.id"
         :task-item="taskItem" :id="taskItem.id"/>
     </ul>
+    <TaskMenu/>
   </div>
 </template>
 
 <script>
 import TaskItem from '@/views/middle/TaskItem'
+import TaskMenu from '@/views/middle/TaskMenu'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -18,7 +20,8 @@ export default {
   },
   components: {
     TaskItem,
-  }
+    TaskMenu,
+  },
 }
 </script>
 

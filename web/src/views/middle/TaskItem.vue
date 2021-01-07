@@ -1,11 +1,29 @@
 <template>
-  <li contenteditable="true">{{ taskItem.name }}</li>
+  <li @contextmenu.prevent="showTaskMenu">{{ taskItem.name }}</li>
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+
 export default {
   name: 'TaskItem',
   props: ['taskItem'],
+  computed: {
+    ...mapGetters(['rightClickTaskId', 'selectedTaskId'])
+  },
+  methods: {
+    ...mapActions(['updateTaskMenu', 'updateRightClickTaskId']),
+
+    showTaskMenu(event) {
+      const taskMenu = {
+        left: event.pageX,
+        top: event.pageY,
+        display: 'block',
+      }
+      this.$store.dispatch('updateTaskMenu', taskMenu)
+      this.$store.dispatch('updateRightClickTaskId', this.taskItem.id)
+    },
+  }
 }
 </script>
 
