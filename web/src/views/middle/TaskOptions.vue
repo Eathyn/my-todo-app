@@ -1,5 +1,5 @@
 <template>
-  <div id="taskPopup">
+  <div id="taskOptions">
     <div id="date">
       <label for="dateInput">日期：</label>
       <input type="date" id="dateInput" name="date" min="2021-01-01" max="2030-12-31">
@@ -28,7 +28,7 @@
 
 <script>
 export default {
-  name: 'TaskPopup',
+  name: 'TaskOptions',
   data() {
     return {
       date: this.dateOfToday()
@@ -44,7 +44,7 @@ export default {
 </script>
 
 <style scoped>
-#taskPopup {
+#taskOptions {
   width: 300px;
   padding: 20px 30px;
   box-shadow: 0 2px 6px rgba(0,0,0,.16), 0 3px 20px rgba(0,0,0,.16);

@@ -2,18 +2,23 @@
   <div id="taskAdder">
     <input type="text" name="name" v-model="model.name"
            @keyup.enter="addTask" placeholder="添加任务，回车即可保存">
-    <svg class="icon" aria-hidden="true">
+    <svg class="icon" aria-hidden="true" @click="setTaskOptions">
       <use xlink:href="#icon-calendar-fill"></use>
     </svg>
+    <TaskOptions/>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import taskOptions from '../../assets/icons/taskOptions'
+import TaskOptions from './TaskOptions'
 
 export default {
   name: 'TaskAdder',
+  components: {
+    TaskOptions,
+  },
   data() {
     return {
       model: {
@@ -31,6 +36,12 @@ export default {
       })
       this.model.name = ''
     },
+    showTaskOptions() {
+
+    },
+    setTaskOptions() {
+
+    }
   },
   computed: {
     ...mapGetters(['selected'])
