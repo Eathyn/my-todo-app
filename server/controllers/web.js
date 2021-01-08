@@ -151,3 +151,12 @@ exports.getTask = async (req, res) => {
   // send the modified task back to client
   res.json(modifiedTask)
 }
+
+exports.updateTask = async (req, res, next) => {
+  const taskId = req.params.taskId
+
+  // update task
+  await Task.findByIdAndUpdate(taskId, req.body)
+
+  next()
+}

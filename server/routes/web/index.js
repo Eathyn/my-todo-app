@@ -17,6 +17,7 @@ module.exports = app => {
   router.post('/list/:listId/task', webController.addTask)
   router.delete('/list/:listId/task/:taskId', webController.deleteTask, webController.getTasks)
   router.get('/task/:taskId', webController.getTask)
+  router.patch('/list/:listId/task/:taskId', webController.updateTask, webController.getTasks)
 
   app.use('/web/api', router)
 }

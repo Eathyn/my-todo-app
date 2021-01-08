@@ -21,6 +21,21 @@ const mutations = {
   },
   UPDATE_TASK_ITEM(state, taskItem) {
     state.taskItem = taskItem
+  },
+  UPDATE_TASK_NAME(state, name) {
+    state.taskItem.name = name
+  },
+  UPDATE_TASK_DATE(state, date) {
+    state.taskItem.options.date = date
+  },
+  UPDATE_TASK_STARTING_TIME(state, startingTime) {
+    state.taskItem.options.period.startingTime = startingTime
+  },
+  UPDATE_TASK_END_TIME(state, endTime) {
+    state.taskItem.options.period.endTime = endTime
+  },
+  UPDATE_TASK_DURATION(state, duration) {
+    state.taskItem.options.duration = duration
   }
 }
 
@@ -51,12 +66,18 @@ const actions = {
     const res = await http.get(`/task/${taskId}`)
     commit('UPDATE_TASK_ITEM', res.data)
   },
+  async updateTaskItem({ commit }, payload) {
+    const res = await http.patch(`/list/${payload.listId}/task/${payload.task.id}`,
+      payload.task)
+    commit('UPDATE_TASK_ITEMS', res.data)
+  },
 }
 
 const getters = {
   taskItems: state => state.taskItems,
   rightClickTaskId: state => state.rightClickTaskId,
   selectedTaskId: state => state.selectedTaskId,
+  taskItem: state => state.taskItem,
 }
 
 const taskModule = {

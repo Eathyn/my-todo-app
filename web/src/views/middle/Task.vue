@@ -5,12 +5,14 @@
         :task-item="taskItem" :id="taskItem.id"/>
     </ul>
     <TaskMenu/>
+    <TaskEdit/>
   </div>
 </template>
 
 <script>
-import TaskItem from '@/views/middle/TaskItem'
-import TaskMenu from '@/views/middle/TaskMenu'
+import TaskItem from './TaskItem'
+import TaskMenu from './TaskMenu'
+import TaskEdit from './TaskEdit'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -21,6 +23,7 @@ export default {
   components: {
     TaskItem,
     TaskMenu,
+    TaskEdit,
   },
 }
 </script>
