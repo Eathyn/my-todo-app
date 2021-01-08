@@ -1,16 +1,24 @@
 <template>
-  <li @contextmenu.prevent="showTaskMenu">
-    {{ taskItem.name }}
-    <svg class="icon" aria-hidden="true">
-      <use xlink:href="#icon-play"></use>
-    </svg>
-    <svg class="icon" aria-hidden="true">
-      <use xlink:href="#icon-suspended"></use>
-    </svg>
-    <svg class="icon" aria-hidden="true">
-      <use xlink:href="#icon-stop"></use>
-    </svg>
-  </li>
+  <div class="task" @contextmenu.prevent="showTaskMenu">
+    <div id="taskContent">
+      {{ taskItem.name }}
+    </div>
+    <div id="icons">
+      <span class="icon-start">
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-play"></use>
+        </svg>
+      </span>
+      <span class="icon-suspended-end">
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-suspended"></use>
+        </svg>
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-stop"></use>
+        </svg>
+      </span>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -42,22 +50,20 @@ export default {
 </script>
 
 <style scoped>
-li {
-  list-style-type: none;
+.task {
   width: 600px;
   height: 35px;
   line-height: 2;
   padding: 0 12px;
   margin: 0 0 5px 0;
+  display: flex;
+  justify-content: space-between;
 }
-li:hover {
+.task:hover {
   background-color: rgba(66,83,136,0.06);
   border-radius: 4px;
 }
-li:focus {
-  background-color: #eef0fb;
-  outline: none;
-}
+
 .icon {
   width: 1.5em;
   height: 1.5em;

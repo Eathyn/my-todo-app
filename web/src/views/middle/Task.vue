@@ -1,9 +1,9 @@
 <template>
   <div>
-    <ul>
+    <div id="tasks">
       <TaskItem v-for="taskItem in taskItems" :key="taskItem.id"
         :task-item="taskItem" :id="taskItem.id"/>
-    </ul>
+    </div>
     <TaskMenu/>
     <TaskEdit/>
   </div>
@@ -29,7 +29,7 @@ export default {
 </script>
 
 <style scoped>
-ul {
+#tasks {
   padding: 0;
   margin: 16px;
 }
