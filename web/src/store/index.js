@@ -7,6 +7,7 @@ import listPopup from './modules/listPopup'
 import task from './modules/task'
 import taskMenu from './modules/taskMenu'
 import taskOptions from './modules/taskOptions'
+import taskEdit from './modules/taskEdit'
 
 Vue.use(Vuex)
 
@@ -19,5 +20,6 @@ export default new Vuex.Store({
     task,
     taskMenu,
     taskOptions,
+    taskEdit,
   }
 })
