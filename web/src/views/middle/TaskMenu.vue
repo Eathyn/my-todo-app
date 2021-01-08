@@ -1,7 +1,7 @@
 <template>
   <div class="taskMenu" :style="{ left: this.taskMenu.left +  'px',
     top: this.taskMenu.top + 'px', display: this.taskMenu.display }">
-    <div class="taskMenuOption" @click="showTaskPopup">编辑</div>
+    <div class="taskMenuOption" @click="showTaskEditPanel">编辑</div>
     <div class="taskMenuOption" @click="deleteTask">删除</div>
   </div>
 </template>
@@ -25,7 +25,7 @@ export default {
       }
       this.$store.dispatch('updateTaskMenu', menu)
     },
-    showTaskPopup() {
+    showTaskEditPanel() {
       // close task menu
       this.closeTaskMenu()
 
