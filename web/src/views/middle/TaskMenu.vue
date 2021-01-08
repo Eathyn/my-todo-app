@@ -1,7 +1,7 @@
 <template>
   <div class="taskMenu" :style="{ left: this.taskMenu.left +  'px',
     top: this.taskMenu.top + 'px', display: this.taskMenu.display }">
-    <div class="taskMenuOption" @click="showTaskEditPanel">编辑</div>
+    <div class="taskMenuOption" @click="openTaskEditPanel">编辑</div>
     <div class="taskMenuOption" @click="deleteTask">删除</div>
   </div>
 </template>
@@ -12,7 +12,7 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'TaskMenu',
   computed: {
-    ...mapGetters(['taskMenu', 'selected', 'rightClickTaskId']),
+    ...mapGetters(['taskMenu', 'selected', 'rightClickTaskId', 'taskEditToggle']),
   },
   methods: {
     ...mapActions(['deleteTask', 'getEditedItem']),
@@ -25,12 +25,15 @@ export default {
       }
       this.$store.dispatch('updateTaskMenu', menu)
     },
-    showTaskEditPanel() {
+    openTaskEditPanel() {
       // close task menu
       this.closeTaskMenu()
 
       // get task name and options then update taskMenu state
       this.$store.dispatch('getEditedItem', this.rightClickTaskId)
+
+      // open task edit panel
+      this.$store.dispatch('updateTaskEditToggle', true)
     },
     deleteTask() {
       const payload = {
