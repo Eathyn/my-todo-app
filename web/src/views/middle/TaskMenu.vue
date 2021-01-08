@@ -15,7 +15,7 @@ export default {
     ...mapGetters(['taskMenu', 'selected', 'rightClickTaskId']),
   },
   methods: {
-    ...mapActions(['deleteTask']),
+    ...mapActions(['deleteTask', 'getEditedItem']),
 
     closeTaskMenu() {
       const menu = {
@@ -26,7 +26,11 @@ export default {
       this.$store.dispatch('updateTaskMenu', menu)
     },
     showTaskPopup() {
-      console.log('编辑任务')
+      // close task menu
+      this.closeTaskMenu()
+
+      // get task name and options then update taskMenu state
+      this.$store.dispatch('getEditedItem', this.rightClickTaskId)
     },
     deleteTask() {
       const payload = {

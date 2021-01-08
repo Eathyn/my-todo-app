@@ -134,3 +134,20 @@ exports.deleteTask = async (req, res, next) => {
 
   next()
 }
+
+exports.getTask = async (req, res) => {
+  const taskId = req.params.taskId
+
+  // get the task
+  const task = await Task.findById(taskId)
+
+  // filter and rename task properties
+  const modifiedTask = {
+    name: task['name'],
+    options: task['options'],
+    id: task['_id'],
+  }
+
+  // send the modified task back to client
+  res.json(modifiedTask)
+}

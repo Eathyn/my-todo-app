@@ -8,6 +8,8 @@ const state = {
 
   // update when left click task item
   selectedTaskId: null,
+
+  taskItem: null,
 }
 
 const mutations = {
@@ -17,6 +19,9 @@ const mutations = {
   UPDATE_RIGHT_CLICK_TASK_ID(state, taskId) {
     state.rightClickTaskId = taskId
   },
+  UPDATE_TASK_ITEM(state, taskItem) {
+    state.taskItem = taskItem
+  }
 }
 
 const actions = {
@@ -41,7 +46,11 @@ const actions = {
   async deleteTask({ commit }, payload) {
     const res = await http.delete(`/list/${payload.listId}/task/${payload.taskId}`)
     commit('UPDATE_TASK_ITEMS', res.data)
-  }
+  },
+  async getEditedItem({ commit }, taskId) {
+    const res = await http.get(`/task/${taskId}`)
+    commit('UPDATE_TASK_ITEM', res.data)
+  },
 }
 
 const getters = {
