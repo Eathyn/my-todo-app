@@ -12,10 +12,10 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'TaskMenu',
   computed: {
-    ...mapGetters(['taskMenu', 'selected', 'rightClickTaskId', 'taskEditToggle']),
+    ...mapGetters(['taskMenu', 'selected', 'clickedTaskId', 'taskEditToggle']),
   },
   methods: {
-    ...mapActions(['deleteTask', 'getEditedItem']),
+    ...mapActions(['deleteTask', 'getClickedTask']),
 
     closeTaskMenu() {
       const menu = {
@@ -30,7 +30,8 @@ export default {
       this.closeTaskMenu()
 
       // get task name and options then update taskMenu state
-      this.$store.dispatch('getEditedItem', this.rightClickTaskId)
+      // this.$store.dispatch('getEditedItem', this.clickedTaskId)
+      this.$store.dispatch('getClickedTask', this.clickedTaskId)
 
       // open task edit panel
       this.$store.dispatch('updateTaskEditToggle', true)
@@ -38,7 +39,7 @@ export default {
     deleteTask() {
       const payload = {
         listId: this.selected,
-        taskId: this.rightClickTaskId,
+        taskId: this.clickedTaskId,
       }
       this.$store.dispatch('deleteTask', payload)
     },

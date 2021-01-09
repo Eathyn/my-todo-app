@@ -1,9 +1,9 @@
 <template>
-  <div class="task" @contextmenu.prevent="showTaskMenu">
-    <div id="taskContent">
+  <div class="task" @contextmenu.prevent="showTaskMenu" @click="showTaskDetails">
+    <div class="taskContent">
       {{ taskItem.name }}
     </div>
-    <div id="icons">
+    <div class="icons">
       <span class="icon-start">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-play"></use>
@@ -31,10 +31,10 @@ export default {
   name: 'TaskItem',
   props: ['taskItem'],
   computed: {
-    ...mapGetters(['rightClickTaskId', 'selectedTaskId'])
+    ...mapGetters(['clickedTaskId'])
   },
   methods: {
-    ...mapActions(['updateTaskMenu', 'updateRightClickTaskId']),
+    ...mapActions(['updateTaskMenu', 'updateClickedTaskId', 'getClickedTask']),
 
     showTaskMenu(event) {
       const taskMenu = {
@@ -43,8 +43,12 @@ export default {
         display: 'block',
       }
       this.$store.dispatch('updateTaskMenu', taskMenu)
-      this.$store.dispatch('updateRightClickTaskId', this.taskItem.id)
+      this.$store.dispatch('updateClickedTaskId', this.taskItem.id)
     },
+    showTaskDetails() {
+      this.$store.dispatch('updateClickedTaskId', this.taskItem.id)
+      this.$store.dispatch('getClickedTask', this.clickedTaskId)
+    }
   }
 }
 </script>

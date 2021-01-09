@@ -2,8 +2,8 @@
   <div id="taskEdit" :style="{ display: taskEditToggle === false ? 'none' : 'block' }">
     <h3>编辑任务</h3>
 
-    <!--  taskItem is null  -->
-    <div v-if="taskItem === null">
+    <!--  clickedTask is null  -->
+    <div v-if="clickedTask === null">
       <div id="name">
         <label for="nameInput">名称：</label>
         <input type="text" id="nameInput" name="name">
@@ -34,7 +34,7 @@
       </div>
     </div>
 
-    <!--  taskItem isn't null  -->
+    <!--  clickedTask isn't null  -->
     <div v-else>
       <div id="name">
         <label for="nameInput">名称：</label>
@@ -73,17 +73,17 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'TaskEdit',
   computed: {
-    ...mapGetters(['taskItem', 'taskEditToggle', 'selected', 'rightClickTaskId']),
+    ...mapGetters(['clickedTask', 'clickedTaskId', 'taskEditToggle', 'selected']),
 
     // options
     name: {
       get() {
-        return this.taskItem.name
+        return this.clickedTask.name
       },
       set(name) {
         this.$store.commit('UPDATE_TASK_NAME', name)
@@ -91,7 +91,7 @@ export default {
     },
     date: {
       get() {
-        return this.taskItem.options.date
+        return this.clickedTask.options.date
       },
       set(date) {
         this.$store.commit('UPDATE_TASK_DATE', date)
@@ -99,7 +99,7 @@ export default {
     },
     startingTime: {
       get() {
-        return this.taskItem.options.period.startingTime
+        return this.clickedTask.options.period.startingTime
       },
       set(startingTime) {
         this.$store.commit('UPDATE_TASK_STARTING_TIME', startingTime)
@@ -107,7 +107,7 @@ export default {
     },
     endTime: {
       get() {
-        return this.taskItem.options.period.endTime
+        return this.clickedTask.options.period.endTime
       },
       set(endTime) {
         this.$store.commit('UPDATE_TASK_END_TIME', endTime)
@@ -115,7 +115,7 @@ export default {
     },
     duration: {
       get() {
-        return this.taskItem.options.duration
+        return this.clickedTask.options.duration
       },
       set(duration) {
         this.$store.commit('UPDATE_TASK_DURATION', duration)
@@ -123,7 +123,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['updateTaskItem']),
+    ...mapActions(['updateClickedTask']),
 
     closeTaskEditPanel() {
       this.$store.dispatch('updateTaskEditToggle', false)
@@ -132,7 +132,7 @@ export default {
       const payload = {
         listId: this.selected,
         task: {
-          id: this.rightClickTaskId,
+          id: this.clickedTaskId,
           name: this.name,
           options: {
             date: this.date,
@@ -145,7 +145,7 @@ export default {
         },
       }
 
-      this.$store.dispatch('updateTaskItem', payload)
+      this.$store.dispatch('updateClickedTask', payload)
       this.closeTaskEditPanel()
     },
   },
