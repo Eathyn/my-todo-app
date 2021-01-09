@@ -71,4 +71,7 @@ export default {
   fill: currentColor;
   overflow: hidden;
 }
+.icon:hover {
+  color: #5670d3;
+}
 </style>
