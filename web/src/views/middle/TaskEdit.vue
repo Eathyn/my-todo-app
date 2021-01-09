@@ -59,7 +59,7 @@
 
       <div id="duration">
         <label for="durationInput">持续时间：</label>
-        <input type="number" id="durationInput" name="duration" step="5" min="5" max="60"
+        <input type="number" id="durationInput" name="duration" step="5" min="5"
                v-model="duration">
       </div>
 
