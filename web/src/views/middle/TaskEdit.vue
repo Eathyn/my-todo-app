@@ -4,34 +4,7 @@
 
     <!--  clickedTask is null  -->
     <div v-if="clickedTask === null">
-      <div id="name">
-        <label for="nameInput">名称：</label>
-        <input type="text" id="nameInput" name="name">
-      </div>
 
-      <div id="date">
-        <label for="dateInput">日期：</label>
-        <input type="date" id="dateInput" name="date">
-      </div>
-
-      <div id="period">
-        <label>时间段：</label>
-        <label for="startingTimeInput"></label>
-        <input type="time" id="startingTimeInput" name="startingTime">
-        <span>&#32;-&#32;</span>
-        <label for="endTimeInput"></label>
-        <input type="time" id="endTimeInput" name="endTime">
-      </div>
-
-      <div id="duration">
-        <label for="durationInput">持续时间：</label>
-        <input type="number" id="durationInput" name="duration" step="5" min="5" max="60">
-      </div>
-
-      <div id="footer">
-        <button>取消</button>
-        <button>确定</button>
-      </div>
     </div>
 
     <!--  clickedTask isn't null  -->
