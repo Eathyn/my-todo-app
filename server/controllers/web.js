@@ -97,7 +97,9 @@ exports.getTasks = async (req, res) => {
 
   const tasks = list.tasks.map(task => ({
     id: task['_id'],
-    name: task['name'],
+    name: task.name,
+    isCompleted: task.isCompleted,
+    options: task.options,
   }))
 
   res.json(tasks)
@@ -143,9 +145,10 @@ exports.getTask = async (req, res) => {
 
   // filter and rename task properties
   const modifiedTask = {
-    name: task['name'],
-    options: task['options'],
     id: task['_id'],
+    name: task['name'],
+    isCompleted: task.isCompleted,
+    options: task['options'],
   }
 
   // send the modified task back to client

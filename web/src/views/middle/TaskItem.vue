@@ -1,5 +1,12 @@
 <template>
-  <div class="task" @contextmenu.prevent="showTaskMenu" @click="showTaskDetails">
+  <div v-bind:class="{ task: taskItem,
+    finishedTask: model.isCompleted }" @contextmenu.prevent="showTaskMenu"
+    @click="showTaskDetails">
+    <div class="isTaskCompleted">
+      <label for="taskCompletionStatus"></label>
+      <input type="checkbox" id="taskCompletionStatus" v-model="model.isCompleted"
+             @click="updateCompletionStatus">
+    </div>
     <div class="taskContent">
       {{ taskItem.name }}
     </div>
@@ -35,10 +42,13 @@ export default {
       hour: 0,
       minute: 0,
       second: 0,
+      model: {
+        isCompleted: this.taskItem.isCompleted,
+      }
     }
   },
   computed: {
-    ...mapGetters(['clickedTaskId', 'clickedTask', 'intervalId'])
+    ...mapGetters(['clickedTaskId', 'clickedTask', 'intervalId', 'selected'])
   },
   methods: {
     ...mapActions(['updateTaskMenu', 'updateClickedTaskId', 'getClickedTask',
@@ -66,6 +76,28 @@ export default {
     stopCountdown() {
       this.$store.dispatch('stopCountdown')
     },
+
+    async updateCompletionStatus() {
+      // get clicked task
+      await this.$store.dispatch('getClickedTask', this.taskItem.id)
+
+      // modify task completion status
+      const task = {
+        id: this.clickedTask.id,
+        isCompleted: this.model.isCompleted,
+        name: this.clickedTask.name,
+        options: this.clickedTask.options,
+      }
+
+      // set payload
+      const payload = {
+        listId: this.selected,
+        task,
+      }
+
+      // update database
+      await this.$store.dispatch('updateClickedTask', payload)
+    },
   }
 }
 </script>
@@ -77,12 +109,17 @@ export default {
   line-height: 3;
   padding: 0 12px;
   display: flex;
-  justify-content: space-between;
-  border-bottom: 2px solid rgb(73 74 77 / 0.08);
+  justify-content: flex-start;
+  border-bottom: 2px solid rgba(73, 74, 77, 0.08);
 }
 .task:hover {
   background-color: rgba(66,83,136,0.06);
   border-radius: 4px;
+}
+
+.taskContent {
+  padding-left: 5px;
+  flex-grow: 10;
 }
 
 .icon {
@@ -94,5 +131,10 @@ export default {
 }
 .icon:hover {
   color: #5670d3;
+}
+
+.finishedTask {
+  color: rgba(0, 0, 0, 0.36);
+  text-decoration-line: line-through;
 }
 </style>

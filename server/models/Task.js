@@ -4,6 +4,10 @@ const taskSchema = mongoose.Schema({
   name: {
     type: String,
   },
+  isCompleted: {
+    type: Boolean,
+    default: false,
+  },
   options: {
     date: '',
     period: {
