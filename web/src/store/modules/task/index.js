@@ -1,4 +1,4 @@
-import http from '@/http'
+import http from '../../../http'
 
 const state = {
   taskItems: [],
@@ -59,9 +59,14 @@ const actions = {
     commit('UPDATE_CLICKED_TASK_ID', taskId)
   },
   async updateClickedTask({ commit }, payload) {
-    const res = await http.patch(`/list/${payload.listId}/task/${payload.task.id}`,
+    // update all tasks
+    let res = await http.patch(`/list/${payload.listId}/task/${payload.task.id}`,
       payload.task)
-    commit('UPDATE_TASK_ITEMS', res.data)
+    await commit('UPDATE_TASK_ITEMS', res.data)
+
+    // update clicked task
+    res = await http.get(`/task/${payload.task.id}`)
+    commit('UPDATE_CLICKED_TASK', res.data)
   },
   async getClickedTask({ commit }, taskId) {
     const res = await http.get(`/task/${taskId}`)
