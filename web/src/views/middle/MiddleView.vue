@@ -23,9 +23,12 @@ export default {
 
 <style scoped>
 #middle-view {
-  flex: 0 0 730px;
+  /*flex: 0 0 730px;*/
+  box-sizing: border-box;
+  width: 730px;
   height: 100vh;
   padding: 0 24px;
   background-color: #fff;
+  border-right: 1px solid rgba(73, 74, 77, 0.22);
 }
 </style>

@@ -29,8 +29,5 @@ export default {
 </script>
 
 <style scoped>
-#tasks {
-  padding: 0;
-  margin: 16px;
-}
+
 </style>
