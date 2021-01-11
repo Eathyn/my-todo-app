@@ -7,9 +7,9 @@
 </template>
 
 <script>
-import LeftView from '@/views/left/LeftView'
-import MiddleView from '@/views/middle/MiddleView'
-import RightView from '@/views/right/RightView'
+import LeftView from './left/LeftView'
+import MiddleView from './middle/MiddleView'
+import RightView from './right/RightView'
 
 export default {
   name: 'Main',
