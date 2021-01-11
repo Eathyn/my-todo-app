@@ -7,9 +7,9 @@
 </template>
 
 <script>
-import User from '@/views/left/User'
-import List from '@/views/left/List'
-import ListPopup from '@/views/left/ListPopup'
+import User from './User'
+import List from './List'
+import ListPopup from './ListPopup'
 
 export default {
   name: 'LeftView',
@@ -23,8 +23,9 @@ export default {
 
 <style scoped>
 #left-view {
-  flex: 0 0 260px;
+  width: 260px;
   height: 100vh;
   background-color: #7086da;
+  border-right: 3px solid rgba(44,66,118,0.06);
 }
 </style>
