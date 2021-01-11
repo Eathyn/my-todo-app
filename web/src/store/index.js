@@ -8,6 +8,8 @@ import task from './modules/task'
 import taskMenu from './modules/taskMenu'
 import taskOptions from './modules/taskOptions'
 import taskEdit from './modules/taskEdit'
+import pomodoro from './modules/pomodoro/pomodoro'
+import taskCountdown from './modules/task/taskCountdown'
 
 Vue.use(Vuex)
 
@@ -21,5 +23,7 @@ export default new Vuex.Store({
     taskMenu,
     taskOptions,
     taskEdit,
+    pomodoro,
+    taskCountdown,
   }
 })
