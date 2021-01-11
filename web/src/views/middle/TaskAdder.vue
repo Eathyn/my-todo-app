@@ -3,7 +3,7 @@
     <input type="text" name="name" v-model="model.name"
            @keyup.enter="addTask" placeholder="添加任务，回车即可保存">
     <svg class="icon" aria-hidden="true" @click="toggleTaskOptions">
-      <use xlink:href="#icon-calendar-fill"></use>
+      <use xlink:href="#icon-calendar"></use>
     </svg>
     <TaskOptions :display="display" @closeTaskOptionsPanel="toggleTaskOptions"/>
   </div>
@@ -11,8 +11,8 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import taskOptions from '../../assets/icons/taskOptions'
 import TaskOptions from './TaskOptions'
+import taskOptions from '../../assets/icons/taskOptions'
 
 export default {
   name: 'TaskAdder',
@@ -52,8 +52,14 @@ export default {
 </script>
 
 <style scoped>
+#taskAdder {
+  box-sizing: border-box;
+  padding-bottom: 20px;
+}
+
 input {
-  width: 630px;
+  box-sizing: border-box;
+  width: 610px;
   height: 40px;
   padding: 0 12px;
   font-size: 14px;
