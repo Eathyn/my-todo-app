@@ -4,12 +4,12 @@
       {{ taskItem.name }}
     </div>
     <div class="icons">
-      <span class="icon-start">
+      <span class="icon-start" @click.stop="startCountdown">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-play"></use>
         </svg>
       </span>
-      <span class="icon-suspended-end">
+      <span class="icon-pause-end" @click.stop="stopCountdown">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-suspended"></use>
         </svg>
@@ -30,11 +30,19 @@ import taskSuspended from '../../assets/icons/taskSuspended'
 export default {
   name: 'TaskItem',
   props: ['taskItem'],
+  data() {
+    return {
+      hour: 0,
+      minute: 0,
+      second: 0,
+    }
+  },
   computed: {
-    ...mapGetters(['clickedTaskId'])
+    ...mapGetters(['clickedTaskId', 'clickedTask', 'intervalId'])
   },
   methods: {
-    ...mapActions(['updateTaskMenu', 'updateClickedTaskId', 'getClickedTask']),
+    ...mapActions(['updateTaskMenu', 'updateClickedTaskId', 'getClickedTask',
+      'updateTaskCountdown', 'startCountdown', 'stopCountdown']),
 
     showTaskMenu(event) {
       const taskMenu = {
@@ -48,20 +56,29 @@ export default {
     showTaskDetails() {
       this.$store.dispatch('updateClickedTaskId', this.taskItem.id)
       this.$store.dispatch('getClickedTask', this.clickedTaskId)
-    }
+    },
+
+    startCountdown() {
+      this.$store.dispatch('updateClickedTaskId', this.taskItem.id)
+      this.$store.dispatch('updateTaskCountdown', this.clickedTaskId)
+      this.$store.dispatch('startCountdown')
+    },
+    stopCountdown() {
+      this.$store.dispatch('stopCountdown')
+    },
   }
 }
 </script>
 
 <style scoped>
 .task {
-  width: 600px;
-  height: 35px;
-  line-height: 2;
+  box-sizing: border-box;
+  height: 50px;
+  line-height: 3;
   padding: 0 12px;
-  margin: 0 0 5px 0;
   display: flex;
   justify-content: space-between;
+  border-bottom: 2px solid rgb(73 74 77 / 0.08);
 }
 .task:hover {
   background-color: rgba(66,83,136,0.06);

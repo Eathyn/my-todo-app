@@ -19,5 +19,8 @@ module.exports = app => {
   router.get('/task/:taskId', webController.getTask)
   router.patch('/list/:listId/task/:taskId', webController.updateTask, webController.getTasks)
 
+  router.get('/pomodoro', webController.getPomodoro)
+  router.get('/taskCountdown/:taskId', webController.getTaskCountdown)
+
   app.use('/web/api', router)
 }

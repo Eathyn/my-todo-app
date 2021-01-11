@@ -160,3 +160,29 @@ exports.updateTask = async (req, res, next) => {
 
   next()
 }
+
+const pomodoro = {
+  minute: 30,
+  second: 0,
+}
+
+exports.getPomodoro = async (req, res) => {
+  res.json(pomodoro)
+}
+
+exports.getTaskCountdown = async (req, res) => {
+  const taskId = req.params.taskId
+
+  // get the task
+  const task = await Task.findById(taskId)
+
+  //filter and rename task properties
+  const modifiedTask = {
+    name: task['name'],
+    id: task['_id'],
+    isCounting: false,
+  }
+
+  // send to client
+  res.json(modifiedTask)
+}
