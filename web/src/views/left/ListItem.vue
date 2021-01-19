@@ -6,25 +6,27 @@
         <use xlink:href="#icon-category"></use>
       </svg>
     </span>
-    <span id="username">{{ listItem.name }}</span>
+    <span class="listName">{{ listItem.name }}</span>
   </li>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import listIcon from '@/assets/icons/list'
+import listIcon from '../../assets/icons/list'
 
 export default {
   name: 'ListItem',
   props: ['listItem'],
+  computed: {
+    ...mapGetters(['clickedList']),
+  },
   methods: {
     ...mapActions(['getTaskItems', 'updateSelected', 'updateListItemMenu',
       'showMenu']),
 
-    getTasks() {
-      this.$store.dispatch('updateSelected', this.listItem.id)
-      this.$store.dispatch('getTaskItems', this.selected)
-      this.$store.dispatch('updateSelectedList')
+    async getTasks() {
+      await this.$store.dispatch('updateClickedList', this.listItem.id)
+      await this.$store.dispatch('updateTaskItems', this.clickedList.tasks)
     },
 
     showMenu(event) {
@@ -43,9 +45,6 @@ export default {
       this.$store.dispatch('updateListItem', listItem)
     },
   },
-  computed: {
-    ...mapGetters(['selected'])
-  }
 }
 </script>
 
@@ -76,7 +75,7 @@ li:focus {
   fill: currentColor;
   overflow: hidden;
 }
-#username {
+.listName {
   padding-left: 10px;
 }
 </style>
