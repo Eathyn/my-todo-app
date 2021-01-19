@@ -1,20 +1,22 @@
 <template>
-  <h3 id="listTitle">
-    <svg class="icon" aria-hidden="true">
-      <use xlink:href="#icon-category"></use>
-    </svg>
-    {{ selectedList === null ? '' : selectedList.name }}
-  </h3>
+    <h3 v-if="!clickedList"></h3>
+
+    <h3 v-else class="listTitle">
+      <svg class="icon" aria-hidden="true">
+        <use xlink:href="#icon-category"></use>
+      </svg>
+      <span class="content">{{ clickedList.name }}</span>
+    </h3>
 </template>
 
 <script>
-import listIcon from '@/assets/icons/list'
+import listIcon from '../../assets/icons/list'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'ListTitle',
   computed: {
-    ...mapGetters(['listItems', 'selected', 'selectedList']),
+    ...mapGetters(['clickedList']),
   },
 }
 </script>
@@ -27,9 +29,14 @@ export default {
   fill: currentColor;
   overflow: hidden;
 }
-#listTitle {
+
+.listTitle {
   margin: 0;
   padding: 24px 0;
   font-size: 22px;
+}
+
+.content {
+  padding-left: 15px;
 }
 </style>
