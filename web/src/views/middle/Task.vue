@@ -1,8 +1,7 @@
 <template>
   <div>
     <div id="tasks">
-      <TaskItem v-for="taskItem in taskItems" :key="taskItem.id"
-        :task-item="taskItem" :id="taskItem.id"/>
+      <TaskItem v-for="taskItem in taskItems" :key="taskItem.id" :task-item="taskItem" :id="taskItem.id"/>
     </div>
     <TaskMenu/>
     <TaskEdit/>
