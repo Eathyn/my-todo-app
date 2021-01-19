@@ -2,8 +2,10 @@ import http from '../../../http'
 
 const state = {
   taskItems: [],
+
   // update when click a task
   clickedTaskId: '',
+
   // showing the task details for TaskEdit and TaskDetails components when click a task
   clickedTask: null,
 }
@@ -39,6 +41,9 @@ const mutations = {
 }
 
 const actions = {
+  updateTaskItems({ commit }, tasks) {
+    commit('UPDATE_TASK_ITEMS', tasks)
+  },
   async getTaskItems({ commit }, listId) {
     const res = await http.get(`/list/${listId}/task/all`)
     commit('UPDATE_TASK_ITEMS', res.data)
