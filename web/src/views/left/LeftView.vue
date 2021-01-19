@@ -25,7 +25,7 @@ export default {
 #left-view {
   width: 260px;
   height: 100vh;
-  background-color: #7086da;
+  background-color: #667fdd;
   border-right: 3px solid rgba(44,66,118,0.06);
 }
 </style>
