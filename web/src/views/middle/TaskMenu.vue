@@ -12,7 +12,7 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'TaskMenu',
   computed: {
-    ...mapGetters(['taskMenu', 'selected', 'clickedTaskId', 'taskEditToggle']),
+    ...mapGetters(['taskMenu', 'clickedTaskId', 'taskEditToggle', 'clickedList']),
   },
   methods: {
     ...mapActions(['deleteTask', 'getClickedTask']),
@@ -38,7 +38,7 @@ export default {
     },
     deleteTask() {
       const payload = {
-        listId: this.selected,
+        listId: this.clickedList.id,
         taskId: this.clickedTaskId,
       }
       this.$store.dispatch('deleteTask', payload)

@@ -19,6 +19,9 @@ export default {
   components: {
     TaskOptions,
   },
+  computed: {
+    ...mapGetters(['taskOptions', 'clickedList'])
+  },
   data() {
     return {
       model: {
@@ -32,7 +35,7 @@ export default {
 
     addTask() {
       this.$store.dispatch('addTaskItem', {
-        selected: this.selected,
+        selected: this.clickedList.id,
         model: this.model,
         taskOptions: this.taskOptions,
       })
@@ -44,9 +47,6 @@ export default {
     toggleTaskOptions() {
       this.display = this.display === 'none' ? 'block' : 'none'
     },
-  },
-  computed: {
-    ...mapGetters(['selected', 'taskOptions'])
   },
 }
 </script>

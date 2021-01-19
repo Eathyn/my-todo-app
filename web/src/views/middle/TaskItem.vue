@@ -11,7 +11,7 @@
       {{ taskItem.name }}
     </div>
     <div class="icons">
-      <span class="icon-start" @click.stop="startCountdown">
+      <span class="icon-start" @click="startCountdown">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-play"></use>
         </svg>
@@ -20,7 +20,7 @@
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-suspended"></use>
         </svg>
-        <svg class="icon" aria-hidden="true">
+        <svg class="icon" aria-hidden="true" >
           <use xlink:href="#icon-stop"></use>
         </svg>
       </span>
@@ -48,7 +48,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['clickedTaskId', 'clickedTask', 'intervalId', 'selected'])
+    ...mapGetters(['clickedTaskId', 'clickedTask', 'intervalId', 'clickedList'])
   },
   methods: {
     ...mapActions(['updateTaskMenu', 'updateClickedTaskId', 'getClickedTask',
@@ -63,6 +63,7 @@ export default {
       this.$store.dispatch('updateTaskMenu', taskMenu)
       this.$store.dispatch('updateClickedTaskId', this.taskItem.id)
     },
+
     showTaskDetails() {
       this.$store.dispatch('updateClickedTaskId', this.taskItem.id)
       this.$store.dispatch('getClickedTask', this.clickedTaskId)
@@ -91,7 +92,7 @@ export default {
 
       // set payload
       const payload = {
-        listId: this.selected,
+        listId: this.clickedList.id,
         task,
       }
 

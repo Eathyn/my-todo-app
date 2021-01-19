@@ -51,7 +51,8 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'TaskEdit',
   computed: {
-    ...mapGetters(['clickedTask', 'clickedTaskId', 'taskEditToggle', 'selected']),
+    ...mapGetters(['clickedTask', 'clickedTaskId', 'taskEditToggle'
+      , 'clickedList']),
 
     // options
     name: {
@@ -103,7 +104,7 @@ export default {
     },
     updateTask() {
       const payload = {
-        listId: this.selected,
+        listId: this.clickedList.id,
         task: {
           id: this.clickedTaskId,
           name: this.name,
