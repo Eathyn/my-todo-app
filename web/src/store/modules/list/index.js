@@ -1,9 +1,17 @@
-import http from '@/http'
+import http from '../../../http'
 
 const state = {
   listItems: [],
   selected: '',
   selectedList: null,
+
+  // the list contains all tasks
+  listOfAllTasks: {},
+
+  // the list contains tasks of today
+  listOfTodayTasks: {},
+
+  clickedList: {},
 }
 
 const mutations = {
@@ -15,6 +23,18 @@ const mutations = {
   },
   UPDATE_SELECTED_LIST(state) {
     state.selectedList = state.listItems.find(listItem => listItem.id === state.selected)
+  },
+
+  UPDATE_CLICKED_LIST(state, list) {
+    state.clickedList = list
+  },
+
+  UPDATE_LIST_OF_ALL_Tasks(state, listOfAllTasks) {
+    state.listOfAllTasks = listOfAllTasks
+  },
+
+  UPDATE_LIST_OF_TODAY_TASKS(state, listOfTodayTasks) {
+    state.listOfTodayTasks = listOfTodayTasks
   },
 }
 
@@ -41,12 +61,31 @@ const actions = {
   updateSelectedList({ commit }) {
     commit('UPDATE_SELECTED_LIST')
   },
+  async updateClickedList({ commit }, clickedListId) {
+    const res = await http.get(`/list/${clickedListId}`)
+    commit('UPDATE_CLICKED_LIST', res.data)
+  },
+
+  // get list of all tasks
+  async getListOfAllTasks({ commit }) {
+    const res = await http.get('/listOfAllTasks')
+    await commit('UPDATE_LIST_OF_ALL_Tasks', res.data)
+  },
+
+  // get list of today tasks
+  async getListOfTodayTasks({ commit }) {
+    const res = await http.get('/listOfTodayTasks')
+    await commit('UPDATE_LIST_OF_TODAY_TASKS', res.data)
+  },
 }
 
 const getters = {
   listItems: state => state.listItems,
   selected: state => state.selected,
   selectedList: state => state.selectedList,
+  listOfAllTasks: state => state.listOfAllTasks,
+  listOfTodayTasks: state => state.listOfTodayTasks,
+  clickedList: state => state.clickedList,
 }
 
 const listModule = {

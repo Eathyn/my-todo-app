@@ -8,8 +8,14 @@ const taskSchema = mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  pomodoroAmount: {
+    type: Number,
+    default: 0,
+  },
   options: {
-    date: '',
+    date: {
+      type: String,
+    },
     period: {
       startingTime: {
         type: String,

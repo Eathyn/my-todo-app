@@ -10,6 +10,9 @@ module.exports = app => {
 
   /* ----- List ----- */
   router.get('/list/all', webController.findUser, webController.getLists)
+  router.get('/listOfAllTasks', webController.getListOfAllTasks)
+  router.get('/listOfTodayTasks', webController.getListOfTodayTasks)
+  router.get('/list/:listId', webController.getList)
   router.post('/list', webController.findUser, webController.createList, webController.getLists)
   router.patch('/list', webController.findUser, webController.modifyList, webController.getLists)
   router.delete('/list/:id', webController.findUser, webController.deleteList, webController.getLists)
@@ -18,8 +21,8 @@ module.exports = app => {
   router.get('/list/:listId/task/all', webController.getTasks)
   router.post('/list/:listId/task', webController.addTask)
   router.delete('/list/:listId/task/:taskId', webController.deleteTask, webController.getTasks)
-  router.get('/task/:taskId', webController.getTask)
   router.patch('/list/:listId/task/:taskId', webController.updateTask, webController.getTasks)
+  router.get('/task/:taskId', webController.getTask)
 
   /* ----- Pomodoro ----- */
   router.get('/pomodoro', webController.getPomodoro)

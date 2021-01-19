@@ -1,9 +1,18 @@
 <template>
   <div>
+    <div class="specialList">
+      <ListOfAllTasks/>
+      <ListOfTodayTasks/>
+    </div>
+
+    <div class="dividingLine"></div>
+
     <ul>
       <ListItem v-for="listItem in listItems" :key="listItem.id" :list-item="listItem"/>
     </ul>
+
     <ListItemMenu/>
+
     <div id="listAdd" @click="showListPopup">
       <svg class="icon" aria-hidden="true">
         <use xlink:href="#icon-add"></use>
@@ -15,9 +24,11 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import ListItem from '@/views/left/ListItem'
-import ListItemMenu from '@/views/left/ListItemMenu'
-import listAddIcon from '@/assets/icons/listAdd'
+import ListItem from './ListItem'
+import ListItemMenu from './ListItemMenu'
+import ListOfAllTasks from './ListOfAllTasks'
+import ListOfTodayTasks from './ListOfTodayTasks'
+import listAddIcon from '../../assets/icons/listAdd'
 
 export default {
   name: 'List',
@@ -37,6 +48,8 @@ export default {
   components: {
     ListItem,
     ListItemMenu,
+    ListOfTodayTasks,
+    ListOfAllTasks,
   },
 }
 </script>
@@ -46,9 +59,16 @@ div:hover {
   cursor: pointer;
 }
 
-ul {
+ul, .specialList {
   padding: 12px;
   margin: 0;
+}
+
+.dividingLine {
+  width: 220px;
+  height: 1px;
+  margin: 0 auto;
+  background-color: #dcdcdc;
 }
 
 #listAdd {

@@ -6,6 +6,9 @@ const listSchema = mongoose.Schema({
     type: String,
   },
   tasks: [{ type: Schema.Types.ObjectId, ref: 'Task' }],
+  createdDate: {
+    type: String,
+  }
 })
 
 module.exports = mongoose.model('List', listSchema)
