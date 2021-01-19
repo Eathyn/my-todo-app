@@ -23,7 +23,6 @@ export default {
 
 <style scoped>
 #middle-view {
-  /*flex: 0 0 730px;*/
   box-sizing: border-box;
   width: 730px;
   height: 100vh;
