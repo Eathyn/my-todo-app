@@ -6,5 +6,8 @@ module.exports = app => {
   router.post('/register', adminController.register)
   router.post('/login', adminController.login)
 
+  /* ---------- User Management ---------- */
+  router.post('/userAdd', adminController.userAdd)
+
   app.use('/admin/api', router)
 }
