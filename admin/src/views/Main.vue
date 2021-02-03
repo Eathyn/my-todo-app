@@ -4,17 +4,17 @@
       <div class="user">
         <div>用户管理</div>
         <div class="actions">
-          <router-link to="/user/add">增加用户</router-link>
-          <div>删除用户</div>
-          <div>修改用户</div>
+          <router-link to="/user/add" tag="div">增加用户</router-link>
+          <router-link to="/user/delete" tag="div">删除用户</router-link>
+          <router-link to="/user/modify" tag="div">修改用户</router-link>
         </div>
       </div>
       <div class="admin">
         <div>管理员管理</div>
         <div class="actions">
-          <router-link to="/admin/add">增加管理员</router-link>
-          <div>删除管理员</div>
-          <div>修改管理员</div>
+          <router-link to="/admin/add" tag="div">增加管理员</router-link>
+          <router-link to="/admin/delete" tag="div">删除管理员</router-link>
+          <router-link to="/admin/modify" tag="div">修改管理员</router-link>
         </div>
       </div>
     </div>
