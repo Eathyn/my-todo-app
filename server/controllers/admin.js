@@ -62,3 +62,15 @@ exports.userAdd = async (req, res) => {
 
   console.log(user)
 }
+
+/* ---------- Admin Management ---------- */
+
+exports.adminAdd = async (req, res) => {
+  const { email, name, password } = req.body
+  const admin = await Admin.create({
+    email,
+    name,
+    password,
+  })
+  console.log(admin)
+}
