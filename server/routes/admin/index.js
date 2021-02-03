@@ -9,5 +9,8 @@ module.exports = app => {
   /* ---------- User Management ---------- */
   router.post('/userAdd', adminController.userAdd)
 
+  /* ---------- Admin Management ---------- */
+  router.post('/adminAdd', adminController.adminAdd)
+
   app.use('/admin/api', router)
 }
