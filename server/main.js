@@ -16,6 +16,7 @@ app.use(express.json())
 
 require('./plugins/db')(app)
 require('./routes/web')(app)
+require('./routes/admin')(app)
 
 app.use('/', router)
 
