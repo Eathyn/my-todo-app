@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 const Admin = require('../models/Admin')
+const User = require('../models/User')
 
 /* ---------------- Admin ----------------- */
 
@@ -47,4 +48,17 @@ exports.login = async (req, res) => {
     token,
     name: admin.name,
   })
+}
+
+/* ---------- User Management ---------- */
+
+exports.userAdd = async (req, res) => {
+  const { email, name, password } = req.body
+  const user = await User.create({
+    email,
+    name,
+    password,
+  })
+
+  console.log(user)
 }
