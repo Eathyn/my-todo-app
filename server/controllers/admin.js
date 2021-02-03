@@ -52,7 +52,7 @@ exports.login = async (req, res) => {
 
 /* ---------- User Management ---------- */
 
-exports.userAdd = async (req, res) => {
+exports.addUser = async (req, res) => {
   const { email, name, password } = req.body
   const user = await User.create({
     email,
@@ -65,7 +65,7 @@ exports.userAdd = async (req, res) => {
 
 /* ---------- Admin Management ---------- */
 
-exports.adminAdd = async (req, res) => {
+exports.addAdmin = async (req, res) => {
   const { email, name, password } = req.body
   const admin = await Admin.create({
     email,
