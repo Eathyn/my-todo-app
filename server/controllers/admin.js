@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken')
 const Admin = require('../models/Admin')
 const User = require('../models/User')
+const List = require('../models/List')
+const Task = require('../models/Task')
 
 /* ---------------- Admin ----------------- */
 
@@ -61,6 +63,32 @@ exports.addUser = async (req, res) => {
   })
 
   console.log(user)
+}
+
+exports.getAllUsers = async (req, res) => {
+  let users = await User.find({})
+
+  // filter some needless properties
+  users = users.map(user => ({
+    id: user._id,
+    email: user.email,
+    name: user.name,
+    role: user.role
+  }))
+  res.send(users)
+}
+
+exports.deleteUser = async (req, res, next) => {
+  const userId = req.params.id
+  const user = await User.findById(userId).populate('lists')
+  for (const list of user.lists) {
+    for (const task of list.tasks) {
+      await Task.findByIdAndDelete(task._id)
+    }
+    await List.findByIdAndDelete(list._id)
+  }
+  await User.findByIdAndDelete(userId)
+  next()
 }
 
 /* ---------- Admin Management ---------- */
