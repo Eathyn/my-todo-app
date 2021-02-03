@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const { Schema } = mongoose
 
-const adminSchema = mongoose.Schema({
+const adminSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -22,7 +22,7 @@ const adminSchema = mongoose.Schema({
   },
   role: {
     type: String,
-    required: true,
+    default: 'admin',
   },
 })
 
