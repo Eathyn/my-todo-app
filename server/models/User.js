@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const { Schema } = mongoose
 
-const userSchema = mongoose.Schema({
+const userSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -19,6 +19,10 @@ const userSchema = mongoose.Schema({
     set(val) {
       return require('bcrypt').hashSync(val, 10)
     },
+  },
+  role: {
+    type: String,
+    default: 'user',
   },
   lists: [{ type: Schema.Types.ObjectId, ref: 'List' }],
 })
