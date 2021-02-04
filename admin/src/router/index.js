@@ -6,6 +6,7 @@ import Main from '../views/Main'
 import UserAdd from '../views/user/UserAdd'
 import UserEdit from '../views/user/UserEdit'
 import AdminAdd from '../views/admin/AdminAdd'
+import AdminEdit from '../views/admin/AdminEdit'
 
 Vue.use(VueRouter)
 
@@ -25,6 +26,7 @@ const routes = [
       { path: '/user/add', component: UserAdd },
       { path: '/user/edit', component: UserEdit },
       { path: '/admin/add', component: AdminAdd },
+      { path: '/admin/edit', component: AdminEdit },
     ]
   },
 ]
