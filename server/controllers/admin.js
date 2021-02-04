@@ -91,6 +91,40 @@ exports.deleteUser = async (req, res, next) => {
   next()
 }
 
+exports.getUser = async (req, res) => {
+  const userId = req.params.id
+
+  const user = await User.findById(userId)
+  const userFiltered = {
+    id: user._id,
+    email: user.email,
+    name: user.name,
+  }
+  res.send(userFiltered)
+}
+
+exports.modifyUser = async (req, res) => {
+  const userId = req.params.id
+  const { email, name, password } = req.body
+
+  if (password === '') {
+    await User.findByIdAndUpdate(userId, {
+      email,
+      name,
+    })
+  } else {
+    await User.findByIdAndUpdate(userId, {
+      email,
+      name,
+      password,
+    })
+  }
+
+  return res.status(200).json({
+    message: '修改完成',
+  })
+}
+
 /* ---------- Admin Management ---------- */
 
 exports.addAdmin = async (req, res) => {
