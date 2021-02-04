@@ -12,8 +12,6 @@
         <div>管理员管理</div>
         <div class="actions">
           <router-link to="/admin/add" tag="div">增加管理员</router-link>
-          <router-link to="/admin/delete" tag="div">删除管理员</router-link>
-          <router-link to="/admin/modify" tag="div">修改管理员</router-link>
         </div>
       </div>
     </div>
