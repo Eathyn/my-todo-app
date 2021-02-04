@@ -10,6 +10,8 @@ module.exports = app => {
   router.post('/userAdd', adminController.addUser)
   router.get('/users', adminController.getAllUsers)
   router.delete('/user/:id', adminController.deleteUser, adminController.getAllUsers)
+  router.get('/user/:id', adminController.getUser)
+  router.patch('/user/:id', adminController.modifyUser)
 
   /* ---------- Admin Management ---------- */
   router.post('/adminAdd', adminController.addAdmin)
