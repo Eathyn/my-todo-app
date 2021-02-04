@@ -1,9 +1,9 @@
 <template>
   <div>
     <div v-for="user in users" :key="user.id">
-      {{ user.id }} - {{ user.email }} - {{ user.name }} - {{ user.role }}
-      <button :id="user.id" @click="deleteUser(user.id)">删除</button>
-      <button :id="user.id" @click="openUserModifyModal(user.id)">修改</button>
+      {{ user.id }} - {{ user.email }} - {{ user.name }}
+      <button @click="deleteUser(user.id)">删除</button>
+      <button @click="openUserModifyModal(user.id)">修改</button>
     </div>
     <div class="userModifyModal" v-if="modalSeen">
       <label for="email">邮箱</label><input type="text" id="email" name="email" v-model="userModified.model.email" required>
