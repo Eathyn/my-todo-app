@@ -5,6 +5,7 @@
         <div>用户管理</div>
         <div class="actions">
           <router-link to="/user/add" tag="div">增加用户</router-link>
+          <router-link to="/user/edit" tag="div">编辑用户</router-link>
           <router-link to="/user/delete" tag="div">删除用户</router-link>
           <router-link to="/user/modify" tag="div">修改用户</router-link>
         </div>
