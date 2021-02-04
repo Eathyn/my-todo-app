@@ -136,3 +136,57 @@ exports.addAdmin = async (req, res) => {
   })
   console.log(admin)
 }
+
+exports.getAllAdmins = async (req, res) => {
+  let admins = await Admin.find({})
+
+  // filter some needless properties
+  admins = admins.map(admin => ({
+    id: admin._id,
+    email: admin.email,
+    name: admin.name,
+  }))
+  res.send(admins)
+}
+
+exports.deleteAdmin = async (req, res) => {
+  const adminId = req.params.id
+  await Admin.findByIdAndDelete(adminId)
+  return res.status(200).json({
+    message: '删除成功'
+  })
+}
+
+exports.getAdmin = async (req, res) => {
+  const adminId = req.params.id
+
+  const admin = await Admin.findById(adminId)
+  const adminFiltered = {
+    id: admin._id,
+    email: admin.email,
+    name: admin.name,
+  }
+  res.send(adminFiltered)
+}
+
+exports.modifyAdmin = async (req, res) => {
+  const adminId = req.params.id
+  const { email, name, password } = req.body
+
+  if (password === '') {
+    await Admin.findByIdAndUpdate(adminId, {
+      email,
+      name,
+    })
+  } else {
+    await Admin.findByIdAndUpdate(adminId, {
+      email,
+      name,
+      password,
+    })
+  }
+
+  return res.status(200).json({
+    message: '修改完成',
+  })
+}
