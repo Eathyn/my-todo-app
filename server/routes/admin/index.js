@@ -15,6 +15,10 @@ module.exports = app => {
 
   /* ---------- Admin Management ---------- */
   router.post('/adminAdd', adminController.addAdmin)
+  router.get('/admins', adminController.getAllAdmins)
+  router.delete('/admin/:id', adminController.deleteAdmin)
+  router.get('/admin/:id', adminController.getAdmin)
+  router.patch('/admin/:id', adminController.modifyAdmin)
 
   app.use('/admin/api', router)
 }
