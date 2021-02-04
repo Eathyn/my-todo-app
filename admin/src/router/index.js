@@ -5,7 +5,6 @@ import Login from '../views/Login'
 import Main from '../views/Main'
 import UserAdd from '../views/user/UserAdd'
 import UserEdit from '../views/user/UserEdit'
-import UserDelete from '../views/user/UserDelete'
 import AdminAdd from '../views/admin/AdminAdd'
 
 Vue.use(VueRouter)
@@ -25,7 +24,6 @@ const routes = [
     children: [
       { path: '/user/add', component: UserAdd },
       { path: '/user/edit', component: UserEdit },
-      { path: '/user/delete', component: UserDelete },
       { path: '/admin/add', component: AdminAdd },
     ]
   },
