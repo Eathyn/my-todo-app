@@ -16,13 +16,33 @@
         </div>
       </div>
     </div>
-    <router-view class="col2"></router-view>
+    <div class="col2">
+      <nav>
+        <div>待办清单应用后台管理系统</div>
+        <div>管理员 : {{ admin.name }}</div>
+      </nav>
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'Main',
+  data() {
+    return {
+      admin: {},
+    }
+  },
+  methods: {
+    async getAdmin(adminId) {
+      const res = await this.$http.get(`/admin/${adminId}`)
+      return res.data
+    }
+  },
+  async created() {
+    this.admin = await this.getAdmin(localStorage.adminId)
+  },
 }
 </script>
 
@@ -39,5 +59,13 @@ export default {
 .col2 {
   background-color: #aaa9a9;
   width: 85%;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 30px 60px 30px 40px;
+  background-color: #5670d3;
 }
 </style>
