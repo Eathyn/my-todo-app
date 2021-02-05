@@ -37,7 +37,7 @@ export default {
     async login() {
       const res = await this.$http.post('/login', this.model)
       localStorage.token = res.data.token
-      localStorage.name = res.data.name
+      localStorage.adminId = res.data.adminId
 
       // init
       this.model.email = ''
