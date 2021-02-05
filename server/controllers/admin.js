@@ -44,11 +44,10 @@ exports.login = async (req, res) => {
     })
   }
 
-  // send token to client
   const token = jwt.sign({ id: admin._id }, app.get('secret'))
-  res.send({
+  res.json({
     token,
-    name: admin.name,
+    adminId: admin._id
   })
 }
 
