@@ -53,12 +53,13 @@ export default {
   height: 100vh;
 }
 .col1 {
-  background-color: indianred;
-  width: 15%;
+  background-color: #667fdd;
+  width: 20%;
+  color: #e3e3e3;
 }
 .col2 {
   background-color: #aaa9a9;
-  width: 85%;
+  width: 80%;
 }
 
 nav {
