@@ -38,7 +38,7 @@ exports.login = async (req, res) => {
   }
 
   // verify
-  const isValid = require('bcrypt').compareSync(password, admin.password)
+  const isValid = bcrypt.compareSync(password, admin.password)
   if (!isValid) {
     return res.status(422).send({
       message: 'wrong password'
