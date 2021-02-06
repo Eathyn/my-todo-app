@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Register from '../views/Register'
 import Login from '../views/Login'
 import Main from '../views/Main'
+import Personal from '../views/Personal'
 import UserAdd from '../views/user/UserAdd'
 import UserEdit from '../views/user/UserEdit'
 import AdminAdd from '../views/admin/AdminAdd'
@@ -23,6 +24,7 @@ const routes = [
     path: '/',
     component: Main,
     children: [
+      { path: '/personal', component: Personal },
       { path: '/user/add', component: UserAdd },
       { path: '/user/edit', component: UserEdit },
       { path: '/admin/add', component: AdminAdd },
