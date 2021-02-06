@@ -37,7 +37,7 @@
           <button @click="modifyPassword(adminId)">确认</button>
         </div>
       </div>
-      <button>删除账户</button>
+      <button @click="deleteAdminAccount(adminId)">删除账户</button>
     </div>
   </div>
 </template>
@@ -118,7 +118,18 @@ export default {
       this.newPassword = ''
       this.confirmedPassword = ''
       this.seen.passwordInput = false
-    }
+    },
+    async deleteAdminAccount(adminId) {
+      // delete account
+      await this.$http.delete(`admin/${adminId}`)
+
+      // clear token and adminId in localStorage
+      localStorage.removeItem('token')
+      localStorage.removeItem('adminId')
+
+      // redirect to the register page
+      await this.$router.push({path: '/register'})
+    },
   },
   async created() {
     this.admin = await this.getAdmin(localStorage.adminId)
