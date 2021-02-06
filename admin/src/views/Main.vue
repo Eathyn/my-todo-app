@@ -1,6 +1,9 @@
 <template>
   <div class="container">
     <div class="col1">
+      <div class="personal">
+        <router-link to="/personal" tag="div">个人信息管理</router-link>
+      </div>
       <div class="user">
         <div>用户管理</div>
         <div class="actions">
