@@ -19,6 +19,9 @@ module.exports = app => {
   router.delete('/admin/:id', adminController.deleteAdmin)
   router.get('/admin/:id', adminController.getAdmin)
   router.patch('/admin/:id', adminController.modifyAdmin)
+  router.patch('/admin/:id/email', adminController.modifyAdminEmail)
+  router.patch('/admin/:id/name', adminController.modifyAdminName)
+  router.patch('/admin/:id/password', adminController.modifyAdminPassword)
 
   app.use('/admin/api', router)
 }
