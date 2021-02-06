@@ -3,6 +3,7 @@ const Admin = require('../models/Admin')
 const User = require('../models/User')
 const List = require('../models/List')
 const Task = require('../models/Task')
+const bcrypt = require('bcrypt')
 
 /* ---------------- Admin ----------------- */
 
@@ -186,5 +187,43 @@ exports.modifyAdmin = async (req, res) => {
 
   return res.status(200).json({
     message: '修改完成',
+  })
+}
+
+exports.modifyAdminEmail = async (req, res) => {
+  const adminId = req.params.id
+  const email = req.body
+
+  await Admin.findByIdAndUpdate(adminId, email)
+  return res.status(200).json({
+    message: '邮箱修改成功',
+  })
+}
+
+exports.modifyAdminName = async (req, res) => {
+  const adminId = req.params.id
+  const name = req.body
+
+  await Admin.findByIdAndUpdate(adminId, name)
+  return res.status(200).json({
+    message: '名称修改成功'
+  })
+}
+
+exports.modifyAdminPassword = async (req, res) => {
+  const adminId = req.params.id
+  const { currentPassword, newPassword } = req.body
+  const admin = await Admin.findById(adminId).select('+password')
+
+  const isValid = bcrypt.compareSync(currentPassword, admin.password)
+  if (!isValid) {
+    return res.status(422).send({
+      message: '当前密码错误',
+    })
+  }
+
+  await Admin.findByIdAndUpdate(adminId, { password: newPassword })
+  return res.status(200).send({
+    message: '密码修改成功',
   })
 }
