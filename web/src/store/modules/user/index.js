@@ -1,24 +1,24 @@
 import http from '@/http'
 
 const state = {
-  userItem: {}
+  user: {}
 }
 
 const mutations = {
-  UPDATE_USER_ITEM(state, payload) {
-    state.userItem = payload
+  UPDATE_USER(state, user) {
+    state.user = user
   },
 }
 
 const actions = {
-  async getUser({ commit }) {
+  async getUserInfo({ commit }) {
     const res = await http.get('/user')
-    commit('UPDATE_USER_ITEM', res.data)
+    commit('UPDATE_USER', res.data)
   },
 }
 
 const getters = {
-  user: state => state.userItem,
+  user: state => state.user,
 }
 
 const userModule = {
