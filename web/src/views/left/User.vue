@@ -14,10 +14,10 @@ export default {
     ...mapGetters(['user']),
   },
   methods: {
-    ...mapActions(['getUser']),
+    ...mapActions(['getUserInfo']),
   },
   created() {
-    this.$store.dispatch('getUser')
+    this.$store.dispatch('getUserInfo')
   },
 }
 </script>
