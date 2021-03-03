@@ -27,7 +27,11 @@ const taskSchema = mongoose.Schema({
     duration: {
       type: Number,
     },
-  }
+  },
+  focusTime: {
+    type: Number,
+    default: 0,
+  },
 })
 
 module.exports = mongoose.model('Task', taskSchema)
