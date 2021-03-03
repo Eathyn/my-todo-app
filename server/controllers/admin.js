@@ -56,13 +56,15 @@ exports.login = async (req, res) => {
 
 exports.addUser = async (req, res) => {
   const { email, name, password } = req.body
-  const user = await User.create({
+  await User.create({
     email,
     name,
     password,
   })
 
-  console.log(user)
+  return res.status(200).json({
+    message: '用户创建成功'
+  })
 }
 
 exports.getAllUsers = async (req, res) => {
@@ -128,12 +130,15 @@ exports.modifyUser = async (req, res) => {
 
 exports.addAdmin = async (req, res) => {
   const { email, name, password } = req.body
-  const admin = await Admin.create({
+  await Admin.create({
     email,
     name,
     password,
   })
-  console.log(admin)
+
+  return res.status(200).json({
+    message: '管理员添加成功'
+  })
 }
 
 exports.getAllAdmins = async (req, res) => {
