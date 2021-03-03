@@ -5,8 +5,7 @@ module.exports = app => {
 
   router.post('/register', webController.register)
   router.post('/login', webController.login)
-
-  router.get('/user', webController.findUser, webController.getUser)
+  router.get('/user', webController.findUser, webController.getUserInfo)
 
   /* ----- List ----- */
   router.get('/list/all', webController.findUser, webController.getLists)
@@ -23,10 +22,12 @@ module.exports = app => {
   router.delete('/list/:listId/task/:taskId', webController.deleteTask, webController.getTasks)
   router.patch('/list/:listId/task/:taskId', webController.updateTask, webController.getTasks)
   router.get('/task/:taskId', webController.getTask)
+  router.get('/taskStatistics/:date', webController.findUser, webController.getTaskStatistics)
 
   /* ----- Pomodoro ----- */
   router.get('/pomodoro', webController.getPomodoro)
   router.get('/taskCountdown/:taskId', webController.getTaskCountdown)
+  router.patch('/pomodoro/duration', )
 
   app.use('/web/api', router)
 }
