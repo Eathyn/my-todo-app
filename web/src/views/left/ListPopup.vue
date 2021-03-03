@@ -6,11 +6,9 @@
         <div class="close" @click="closePopup">&times;</div>
       </div>
       <div class="popup-body">
-        <label for="list-content">
-          <input v-if="listItem" type="text" id="list-content" name="name"
-                 v-model="model.name">
-          <input v-else type="text" id="list-content" name="name" placeholder="名称"
-            v-model="model.name">
+        <label>
+          <input v-if="listItem" type="text" name="name" v-model="model.name" class="list-content">
+          <input v-else type="text" name="name" placeholder="名称" v-model="model.name" class="list-content">
         </label>
       </div>
       <div class="popup-footer">
@@ -112,7 +110,7 @@ export default {
 .popup-body {
   padding: 16px;
 }
-#list-content {
+.list-content {
   width: 450px;
   height: 36px;
   padding-left: 12px;
@@ -149,5 +147,4 @@ button:nth-of-type(1):hover {
 button:nth-of-type(2):hover {
   background-color: #5670d3;
 }
-
 </style>
