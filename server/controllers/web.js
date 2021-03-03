@@ -6,9 +6,31 @@ const Task = require('../models/Task')
 /* ---------- User ---------- */
 
 exports.register = async (req, res) => {
-  // create a new user
-  const user = await User.create(req.body)
-  res.json(user)
+  const email = req.body.email
+
+  const isRegistered = await User.findOne({ email })
+  if (isRegistered) {
+    return res.status(422).json({
+      message: '用户已注册',
+    })
+  }
+
+  try {
+    await User.create({
+      email: req.body.email,
+      name: req.body.name,
+      password: req.body.password,
+      role: 'user',
+    })
+  } catch (e) {
+    return res.status(500).json({
+      message: '服务器出错'
+    })
+  }
+
+  return res.status(200).json({
+    message: '用户注册成功'
+  })
 }
 
 exports.login = async (req, res) => {
@@ -17,21 +39,20 @@ exports.login = async (req, res) => {
   // search user by email
   const user = await User.findOne({ email }).select('+password')
   if (!user) {
-    return res.status(422).send({
-      message: 'user doesn\'t exist'
+    return res.status(403).send({
+      message: '用户不存在'
     })
   }
 
   // verify
   const isValid = require('bcrypt').compareSync(password, user.password)
   if (!isValid) {
-    return res.status(422).send({
-      message: 'wrong password'
+    return res.status(401).send({
+      message: '密码错误'
     })
   }
 
   // send token to client
-  const jwt = require('jsonwebtoken')
   const token = jwt.sign({ id: user._id }, app.get('secret'))
   res.json({ token })
 }
@@ -39,11 +60,24 @@ exports.login = async (req, res) => {
 exports.findUser = async (req, res, next) => {
   const token = String(req.headers.authorization || '').split(' ').pop()
   const { id } = jwt.verify(token, app.get('secret'))
-  req.user = await User.findById(id)
-  await next()
+
+  try {
+    const user = await User.findById(id)
+    if (!user) {
+      return res.status(422).json({
+        message: '用户非法'
+      })
+    }
+    req.user = user
+    await next()
+  } catch (e) {
+    return res.status(500).json({
+      message: '服务器出错'
+    })
+  }
 }
 
-exports.getUser = async (req, res) => {
+exports.getUserInfo = async (req, res) => {
   res.json({
     id: req.user._id,
     name: req.user.name,
@@ -63,7 +97,6 @@ exports.createList = async (req, res, next) => {
 exports.getLists = async (req, res) => {
   const user = await User.populate(req.user, {
     path: 'lists',
-    // populate: { path: 'tasks' },
   })
   const lists = user.lists.map(list => ({
     id: list['_id'],
@@ -154,6 +187,11 @@ exports.modifyList = async (req, res, next) => {
 
 exports.deleteList = async (req, res, next) => {
   const listId = req.params.id
+  const list = await List.findById(listId).populate('tasks')
+
+  for (const task of list.tasks) {
+    await Task.findByIdAndDelete(task._id)
+  }
   await List.findByIdAndDelete(listId)
 
   await next()
@@ -219,6 +257,7 @@ exports.getTask = async (req, res) => {
     isCompleted: task.isCompleted,
     pomodoroAmount: task.pomodoroAmount,
     options: task['options'],
+    focusTime: task.focusTime,
   }
 
   // send the modified task back to client
@@ -235,7 +274,7 @@ exports.updateTask = async (req, res, next) => {
 }
 
 const pomodoro = {
-  minute: 0,
+  minute: 1,
   second: 0,
 }
 
@@ -359,4 +398,35 @@ exports.getListOfTodayTasks = async (req, res) => {
 
     await listOfTodayTasks.save()
   }
+}
+
+exports.getTaskStatistics = async (req, res) => {
+  const date = req.params.date
+  const user = req.user
+  const taskStatistics = []
+  let listOfAllTasks
+
+  // get list of all tasks
+  for (const listId of user.lists) {
+    const list = await List.findById(listId)
+    if (list.name === '所有') {
+      listOfAllTasks = list
+    }
+  }
+
+  const list = await List.populate(listOfAllTasks, 'tasks')
+  const tasks = list.tasks.map(task => ({
+    name: task.name,
+    isCompleted: task.isCompleted,
+    options: task.options,
+    focusTime: task.focusTime,
+  }))
+
+  for (const task of tasks) {
+    if (task.options.date && task.options.date === date) {
+      taskStatistics.push(task)
+    }
+  }
+
+  res.send(taskStatistics)
 }
