@@ -4,19 +4,13 @@
       <ListOfAllTasks/>
       <ListOfTodayTasks/>
     </div>
-
     <div class="dividingLine"></div>
-
     <ul>
       <ListItem v-for="listItem in listItems" :key="listItem.id" :list-item="listItem"/>
     </ul>
-
     <ListItemMenu/>
-
     <div id="listAdd" @click="showListPopup">
-      <svg class="icon" aria-hidden="true">
-        <use xlink:href="#icon-add"></use>
-      </svg>
+      <svg class="icon" aria-hidden="true"><use xlink:href="#icon-add"></use></svg>
       添加清单
     </div>
   </div>
