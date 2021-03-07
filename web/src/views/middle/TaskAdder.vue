@@ -32,16 +32,12 @@ export default {
     ...mapActions(['addTaskItem', 'updateTaskOptions']),
 
     addTask() {
-      this.$store.dispatch('updateTaskOptions')
       this.$store.dispatch('addTaskItem', {
         selected: this.clickedList.id,
         model: this.model,
         taskOptions: this.taskOptions,
       })
-
-      // set to default values
       this.model.name = ''
-      this.$store.dispatch('updateTaskOptions', null)
     },
     toggleTaskOptions() {
       this.display = this.display === 'none' ? 'block' : 'none'
