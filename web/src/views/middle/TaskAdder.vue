@@ -2,9 +2,7 @@
   <div id="taskAdder">
     <label for="addTask"></label>
     <input id="addTask" type="text" name="name" v-model="model.name" @keyup.enter="addTask" placeholder="添加任务，回车即可保存">
-    <svg class="icon" aria-hidden="true" @click="toggleTaskOptions">
-      <use xlink:href="#icon-calendar"></use>
-    </svg>
+    <svg class="icon" aria-hidden="true" @click="toggleTaskOptions"><use xlink:href="#icon-calendar"></use></svg>
     <TaskOptions :display="display" @closeTaskOptionsPanel="toggleTaskOptions"/>
   </div>
 </template>
