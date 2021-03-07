@@ -13,8 +13,8 @@
       </div>
       <div class="popup-footer">
         <button @click="closeListPopup">关闭</button>
-        <button v-if="listItem" @click="modifyList">修改</button>
-        <button v-else @click="addList">保存</button>
+        <button v-show="listItem" @click="modifyList">修改</button>
+        <button v-show="!listItem" @click="addList">保存</button>
       </div>
     </div>
   </div>
