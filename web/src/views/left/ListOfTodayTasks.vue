@@ -1,12 +1,7 @@
 <template>
   <li v-if="!listOfTodayTasks"></li>
-
   <li v-else @click="showListDetails" :id="listOfTodayTasks.id">
-    <span>
-      <svg class="icon" aria-hidden="true">
-        <use xlink:href="#icon-category"></use>
-      </svg>
-    </span>
+    <span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-category"></use></svg></span>
     <span class="listName">今天</span>
   </li>
 </template>
