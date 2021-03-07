@@ -3,7 +3,7 @@
     <div class="popup">
       <div class="popup-header">
         <h3>{{ listItem ? '编辑' : '新建' }}清单</h3>
-        <div class="close" @click="closePopup">&times;</div>
+        <div class="close" @click="closeListPopup">&times;</div>
       </div>
       <div class="popup-body">
         <label>
@@ -12,7 +12,7 @@
         </label>
       </div>
       <div class="popup-footer">
-        <button @click="closePopup">关闭</button>
+        <button @click="closeListPopup">关闭</button>
 
         <button v-if="listItem" @click="modifyList">修改</button>
         <button v-else @click="addList">保存</button>
@@ -39,7 +39,7 @@ export default {
   methods: {
     ...mapActions(['addListItem', 'modifyListItem']),
 
-    closePopup() {
+    closeListPopup() {
       this.$store.dispatch('updateSeen', false)
     },
 
