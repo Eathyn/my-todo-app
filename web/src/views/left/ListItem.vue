@@ -23,19 +23,16 @@ export default {
       await this.$store.dispatch('updateTaskItems', this.clickedList.tasks)
     },
     showMenu(event) {
-      const menu = {
+      this.$store.dispatch('updateListItemMenu', {
         left: event.pageX,
         top: event.pageY,
         display: 'block',
-      }
-      this.$store.dispatch('updateListItemMenu', menu)
-
-      // for edit popup
-      const listItem = {
-        id: this.listItem.id,
-        name: this.listItem.name,
-      }
-      this.$store.dispatch('updateListItem', listItem)
+      })
+      this.updateList()
+    },
+    updateList() {
+      const { id, name } = this.listItem
+      this.$store.dispatch('updateListItem', { id, name })
     },
   },
 }
