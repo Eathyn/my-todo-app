@@ -40,8 +40,8 @@ export default {
 
     async addList() {
       await this.$store.dispatch('addListItem', this.model)
-      await this.$store.dispatch('updateSeen', false)
       this.model.name = ''
+      this.closeListPopup()
     },
     async modifyList() {
       const listItem = {
@@ -49,8 +49,8 @@ export default {
         name: this.model.name,
       }
       await this.$store.dispatch('modifyListItem', listItem)
-      await this.$store.dispatch('updateSeen', false)
       this.model.name = ''
+      this.closeListPopup()
     },
     closeListPopup() {
       this.$store.dispatch('updateSeen', false)
