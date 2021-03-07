@@ -1,11 +1,6 @@
 <template>
-  <li @click="getTasks" :id="listItem.id" @contextmenu.stop.prevent="showMenu"
-      :tabindex="listItem.id">
-    <span>
-      <svg class="icon" aria-hidden="true">
-        <use xlink:href="#icon-category"></use>
-      </svg>
-    </span>
+  <li @click="getTasks" :id="listItem.id" @contextmenu.stop.prevent="showMenu" :tabindex="listItem.id">
+    <span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-category"></use></svg></span>
     <span class="listName">{{ listItem.name }}</span>
   </li>
 </template>
@@ -21,14 +16,12 @@ export default {
     ...mapGetters(['clickedList']),
   },
   methods: {
-    ...mapActions(['getTaskItems', 'updateSelected', 'updateListItemMenu',
-      'showMenu']),
+    ...mapActions(['getTaskItems', 'updateSelected', 'updateListItemMenu', 'showMenu']),
 
     async getTasks() {
       await this.$store.dispatch('updateClickedList', this.listItem.id)
       await this.$store.dispatch('updateTaskItems', this.clickedList.tasks)
     },
-
     showMenu(event) {
       const menu = {
         left: event.pageX,
