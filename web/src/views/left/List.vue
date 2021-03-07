@@ -11,7 +11,7 @@
     <ListItemMenu/>
     <div id="listAdd" @click="showListPopup">
       <svg class="icon" aria-hidden="true"><use xlink:href="#icon-add"></use></svg>
-      添加清单
+      <span>添加清单</span>
     </div>
   </div>
 </template>
@@ -79,6 +79,7 @@ ul, .specialList {
 .icon {
   width: 1.5em;
   height: 1.5em;
+  padding-right: 10px;
   vertical-align: -0.35em;
   fill: currentColor;
   overflow: hidden;
