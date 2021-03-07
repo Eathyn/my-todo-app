@@ -1,6 +1,6 @@
 <template>
   <li v-if="!listOfTodayTasks"></li>
-  <li v-else @click="showListDetails" :id="listOfTodayTasks.id">
+  <li v-else @click="clickListOfToday" :id="listOfTodayTasks.id">
     <span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-category"></use></svg></span>
     <span class="listName">今天</span>
   </li>
@@ -16,12 +16,28 @@ export default {
     ...mapGetters(['listOfTodayTasks', 'clickedList'])
   },
   methods: {
-    ...mapActions(['getListOfTodayTasks', 'updateClickedList', 'updateTaskItems']),
+    ...mapActions(['getListOfTodayTasks', 'updateClickedList', 'updateTaskItems', 'updateTaskOptions']),
 
+    clickListOfToday() {
+      this.showListDetails()
+      this.initTaskOptions()
+    },
     async showListDetails() {
       await this.$store.dispatch('updateClickedList', this.listOfTodayTasks.id)
       await this.$store.dispatch('updateTaskItems', this.clickedList.tasks)
-    }
+    },
+    initTaskOptions() {
+      const taskOptions = {
+        date: this.getDateOfToday(),
+        period: null,
+        duration: null,
+      }
+      this.$store.dispatch('updateTaskOptions', taskOptions)
+    },
+    getDateOfToday() {
+      const [year, month, day] = new Date().toLocaleDateString().split('/')
+      return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`
+    },
   },
   created() {
     this.getListOfTodayTasks()
