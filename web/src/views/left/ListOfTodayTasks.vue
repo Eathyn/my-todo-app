@@ -19,10 +19,10 @@ export default {
     ...mapActions(['getListOfTodayTasks', 'updateClickedList', 'updateTaskItems', 'updateTaskOptions']),
 
     clickListOfToday() {
-      this.showListDetails()
+      this.showTasksOfTodayList()
       this.initTaskOptions()
     },
-    async showListDetails() {
+    async showTasksOfTodayList() {
       await this.$store.dispatch('updateClickedList', this.listOfTodayTasks.id)
       await this.$store.dispatch('updateTaskItems', this.clickedList.tasks)
     },
