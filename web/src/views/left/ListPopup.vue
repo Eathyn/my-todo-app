@@ -13,7 +13,6 @@
       </div>
       <div class="popup-footer">
         <button @click="closeListPopup">关闭</button>
-
         <button v-if="listItem" @click="modifyList">修改</button>
         <button v-else @click="addList">保存</button>
       </div>
@@ -39,10 +38,6 @@ export default {
   methods: {
     ...mapActions(['addListItem', 'modifyListItem']),
 
-    closeListPopup() {
-      this.$store.dispatch('updateSeen', false)
-    },
-
     async addList() {
       await this.$store.dispatch('addListItem', this.model)
       await this.$store.dispatch('updateSeen', false)
@@ -53,10 +48,12 @@ export default {
         id: this.listItem.id,
         name: this.model.name,
       }
-
       await this.$store.dispatch('modifyListItem', listItem)
       await this.$store.dispatch('updateSeen', false)
       this.model.name = ''
+    },
+    closeListPopup() {
+      this.$store.dispatch('updateSeen', false)
     },
   },
 }
