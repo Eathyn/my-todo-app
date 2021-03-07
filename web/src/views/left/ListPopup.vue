@@ -1,5 +1,5 @@
 <template>
-  <div class="popup-cover" v-show="seen">
+  <div class="popup-cover" v-if="this.seen">
     <div class="popup">
       <div class="popup-header">
         <h3>{{ listItem ? '编辑' : '新建' }}清单</h3>
