@@ -16,7 +16,7 @@ export default {
     ...mapGetters(['clickedList']),
   },
   methods: {
-    ...mapActions(['getTaskItems', 'updateSelected', 'toggleListMenu']),
+    ...mapActions(['toggleListMenu']),
 
     async getTasks() {
       await this.$store.dispatch('updateClickedList', this.listItem.id)
