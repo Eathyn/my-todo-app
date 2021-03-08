@@ -1,27 +1,37 @@
 const state = {
-  listItemMenu: {}
+  listMenuInfo: {
+    left: 0,
+    top: 0,
+    seen: false,
+  }
 }
 
 const mutations = {
-  UPDATE_LIST_ITEM_MENU(state, listItemMenu) {
-    state.listItemMenu = listItemMenu
+  UPDATE_LIST_MENU_INFO(state, listMenuInfo) {
+    state.listMenuInfo = listMenuInfo
   }
 }
 
 const actions = {
-  updateListItemMenu({ commit }, listItemMenu) {
-    commit('UPDATE_LIST_ITEM_MENU', listItemMenu)
-  },
-  showMenu({ commit }, listItemMenu) {
-    commit('UPDATE_LIST_ITEM_MENU', listItemMenu)
-  },
-  closeMenu({ commit }, listItemMenu) {
-    commit('UPDATE_LIST_ITEM_MENU', listItemMenu)
-  },
+  toggleListMenu({ commit }, evt = null) {
+    if (state.listMenuInfo.seen === true) {
+      commit('UPDATE_LIST_MENU_INFO', {
+        left: 0,
+        top: 0,
+        seen: false,
+      })
+    } else {
+      commit('UPDATE_LIST_MENU_INFO', {
+        left: evt.pageX,
+        top: evt.pageY,
+        seen: true,
+      })
+    }
+  }
 }
 
 const getters = {
-  listItemMenu: state => state.listItemMenu
+  listMenuInfo: state => state.listMenuInfo
 }
 
 const listMenuModule = {
