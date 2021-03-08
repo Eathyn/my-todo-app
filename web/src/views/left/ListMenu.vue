@@ -24,29 +24,22 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['deleteListItem', 'deleteTaskItems']),
+    ...mapActions(['deleteListItem', 'deleteTaskItems', 'toggleListMenu']),
 
     showListPopup() {
       this.$store.dispatch('updateSeen', true)
-      this.closeListMenu()
+      this.$store.dispatch('toggleListMenu')
     },
     deleteList() {
       this.$store.dispatch('deleteListItem', this.listItem)
       this.$store.dispatch('deleteTaskItems')
-      this.closeListMenu()
-    },
-    closeListMenu() {
-      this.$store.dispatch('closeMenu', {
-        left: 0,
-        top: 0,
-        seen: false,
-      })
+      this.$store.dispatch('toggleListMenu')
     },
   },
   created() {
     window.addEventListener('click', () => {
       if (this.listMenuSeen) {
-        this.closeListMenu()
+        this.$store.dispatch('toggleListMenu')
       }
     })
   },
