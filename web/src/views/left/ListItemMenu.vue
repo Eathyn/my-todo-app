@@ -1,7 +1,5 @@
 <template>
-  <div class="menu"
-     :style="{ left: this.listItemMenu.left + 'px', top: this.listItemMenu.top + 'px',
-      display: this.listItemMenu.display }">
+  <div class="menu" :style="styleObject" v-show="this.listItemMenu.seen">
     <div class="menu-option" @click="showListPopup">编辑</div>
     <div class="menu-option" @click="deleteList">删除</div>
   </div>
@@ -14,10 +12,16 @@ export default {
   name: 'ListItemMenu',
   computed: {
     ...mapGetters(['listItemMenu', 'listItem', 'taskItems']),
+    styleObject: function () {
+      return {
+        left: `${this.listItemMenu.left}px`,
+        top: `${this.listItemMenu.top}px`,
+        display: 'block',
+      }
+    },
   },
   methods: {
     ...mapActions(['deleteListItem', 'deleteTaskItems']),
-
     closeMenu() {
       const menu = {
         left: 0,
