@@ -2,7 +2,7 @@
   <li v-if="!listOfTodayTasks"></li>
   <li v-else @click="clickListOfToday" :id="listOfTodayTasks.id">
     <span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-category"></use></svg></span>
-    <span class="listName">今天</span>
+    <span class="listName">{{ listOfTodayTasks.name }}</span>
   </li>
 </template>
 
