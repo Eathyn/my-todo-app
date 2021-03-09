@@ -2,25 +2,22 @@
   <div id="taskOptions" :style="{ display: this.display }">
     <div id="date">
       <label for="dateInput">日期：</label>
-      <input type="date" id="dateInput" name="date" min="2021-01-01" max="2030-12-31">
+      <input type="date" id="dateInput" name="date" min="2021-01-01" max="2030-12-31" v-model="options.date">
     </div>
-
     <div id="period">
       <label>时间段：</label>
       <label for="startingTimeInput"></label>
-      <input type="time" id="startingTimeInput" name="startingTime">
+      <input type="time" id="startingTimeInput" name="startingTime" v-model="options.period.startingTime">
       <span>&#32;-&#32;</span>
       <label for="endTimeInput"></label>
-      <input type="time" id="endTimeInput" name="endTime">
+      <input type="time" id="endTimeInput" name="endTime" v-model="options.period.endTime">
     </div>
-
     <div id="duration">
       <label for="durationInput">持续时间：</label>
-      <input type="number" id="durationInput" name="duration" step="5" min="5" max="60">
+      <input type="number" id="durationInput" name="duration" step="5" min="5" v-model="options.duration">
     </div>
-
     <div id="footer">
-      <button @click="cleanOptions">清除</button>
+      <button @click="cleanOptions">取消</button>
       <button @click="setOptions">确定</button>
     </div>
   </div>
@@ -32,49 +29,36 @@ import { mapActions } from 'vuex'
 export default {
   name: 'TaskOptions',
   props: ['display'],
+  data() {
+    return {
+      options: {
+        date: '',
+        period: {
+          startingTime: '',
+          endTime: '',
+        },
+        duration: '',
+      },
+    }
+  },
   methods: {
     ...mapActions(['updateTaskOptions']),
 
     setOptions() {
-      const dateInput = document.querySelector('input[id="dateInput"]')
-      const startingTimeInput = document.querySelector('input[id="startingTimeInput"]')
-      const endTimeInput = document.querySelector('input[id="endTimeInput"]')
-      const durationInput = document.querySelector('input[id="durationInput"]')
-
-      const taskOptions = {
-        date: dateInput.value,
-        period: {
-          startingTime: startingTimeInput.value,
-          endTime: endTimeInput.value,
-        },
-        duration: durationInput.value,
-      }
-      this.$store.dispatch('updateTaskOptions', taskOptions)
-
-      // set inputs to default values
-      dateInput.value = ''
-      startingTimeInput.value = ''
-      endTimeInput.value = ''
-      durationInput.value = ''
-
-      // close taskOptions panel
+      this.$store.dispatch('updateTaskOptions', this.options)
+      this.setTaskOptionsDefault()
       this.$emit('closeTaskOptionsPanel')
     },
-
     cleanOptions() {
-      const dateInput = document.querySelector('input[id="dateInput"]')
-      const startingTimeInput = document.querySelector('input[id="startingTimeInput"]')
-      const endTimeInput = document.querySelector('input[id="endTimeInput"]')
-      const durationInput = document.querySelector('input[id="durationInput"]')
-
-      // set inputs to default values
-      dateInput.value = ''
-      startingTimeInput.value = ''
-      endTimeInput.value = ''
-      durationInput.value = ''
-
-      // close taskOptions panel
+      this.setTaskOptionsDefault()
       this.$emit('closeTaskOptionsPanel')
+    },
+    // set task options to default values
+    setTaskOptionsDefault() {
+      this.options.date = ''
+      this.options.period.startingTime = ''
+      this.options.period.endTime = ''
+      this.options.duration = ''
     },
   }
 }
