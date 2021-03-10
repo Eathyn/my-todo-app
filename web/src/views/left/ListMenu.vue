@@ -1,6 +1,6 @@
 <template>
   <div class="listMenu" :style="styleObject" v-show="listMenuSeen">
-    <div class="listMenuOption" @click="showListPopup">编辑</div>
+    <div class="listMenuOption" @click="openListPopup">编辑</div>
     <div class="listMenuOption" @click="deleteList">删除</div>
   </div>
 </template>
@@ -26,7 +26,7 @@ export default {
   methods: {
     ...mapActions(['deleteListItem', 'deleteTaskItems', 'toggleListMenu']),
 
-    showListPopup() {
+    openListPopup() {
       this.$store.dispatch('updateSeen', true)
       this.$store.dispatch('toggleListMenu')
     },
@@ -38,6 +38,11 @@ export default {
   },
   created() {
     window.addEventListener('click', () => {
+      if (this.listMenuSeen) {
+        this.$store.dispatch('toggleListMenu')
+      }
+    })
+    window.addEventListener('contextmenu', () => {
       if (this.listMenuSeen) {
         this.$store.dispatch('toggleListMenu')
       }
