@@ -13,8 +13,8 @@
       </div>
       <div class="popup-footer">
         <button @click="closeListPopup">关闭</button>
-        <button v-show="listItem" @click="modifyList">修改</button>
-        <button v-show="!listItem" @click="addList">保存</button>
+        <button v-show="listItem" @click="modifyList" class="modify">修改</button>
+        <button v-show="!listItem" @click="addList" class="save">保存</button>
       </div>
     </div>
   </div>
@@ -24,7 +24,7 @@
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  name: 'ListCreate',
+  name: 'ListPopup',
   data() {
     return {
       model: {
@@ -134,14 +134,14 @@ button {
 button:nth-of-type(1) {
   background-color: rgba(46,73,136,.08);
 }
-button:nth-of-type(2) {
-  background-color: #b1bdeb;
-  color: #fefefe;
-}
 button:nth-of-type(1):hover {
   background-color: rgba(46,73,136,.12);
 }
-button:nth-of-type(2):hover {
+.modify, .save {
+  background-color: #8ea0e6;
+  color: #fefefe;
+}
+.modify:hover, .save:hover {
   background-color: #5670d3;
 }
 </style>
