@@ -17,7 +17,7 @@ export default {
     User,
     List,
     ListPopup,
-  }
+  },
 }
 </script>
 
