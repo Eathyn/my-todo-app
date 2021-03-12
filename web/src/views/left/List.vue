@@ -1,14 +1,14 @@
 <template>
   <div>
     <div class="specialList">
-      <ListOfAllTasks/>
+<!--      <ListOfAllTasks/>-->
       <ListOfTodayTasks/>
     </div>
     <div class="dividingLine"></div>
     <ul>
-      <ListItem v-for="listItem in listItems" :key="listItem.id" :list-item="listItem"/>
+      <ListItem v-for="listItem in listItems" :key="listItem.id" :listItem="listItem"/>
     </ul>
-    <ListItemMenu/>
+    <ListMenu/>
     <div id="listAdd" @click="showListPopup">
       <svg class="icon" aria-hidden="true"><use xlink:href="#icon-add"></use></svg>
       <span>添加清单</span>
@@ -19,8 +19,8 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import ListItem from './ListItem'
-import ListItemMenu from './ListItemMenu'
-import ListOfAllTasks from './ListOfAllTasks'
+import ListMenu from './ListMenu'
+// import ListOfAllTasks from './ListOfAllTasks'
 import ListOfTodayTasks from './ListOfTodayTasks'
 import listAddIcon from '../../assets/icons/listAdd'
 
@@ -41,9 +41,9 @@ export default {
   },
   components: {
     ListItem,
-    ListItemMenu,
+    ListMenu,
     ListOfTodayTasks,
-    ListOfAllTasks,
+    // ListOfAllTasks,
   },
 }
 </script>
