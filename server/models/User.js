@@ -25,6 +25,7 @@ const userSchema = new Schema({
     default: 'user',
   },
   lists: [{ type: Schema.Types.ObjectId, ref: 'List' }],
+  listTodayId: { type: Schema.Types.ObjectId, ref: 'List' },
 })
 
 module.exports = mongoose.model('User', userSchema)
