@@ -8,6 +8,9 @@ const state = {
 
   // showing the task details for TaskEdit and TaskDetails components when click a task
   clickedTask: null,
+
+  // tasks for statistics
+  taskStatistics: [],
 }
 
 const mutations = {
@@ -38,6 +41,10 @@ const mutations = {
   UPDATE_TASK_DURATION(state, duration) {
     state.clickedTask.options.duration = duration
   },
+
+  UPDATE_TASK_STATISTICS(state, taskStatistics) {
+    state.taskStatistics = taskStatistics
+  },
 }
 
 const actions = {
@@ -65,8 +72,7 @@ const actions = {
   },
   async updateClickedTask({ commit }, payload) {
     // update all tasks
-    let res = await http.patch(`/list/${payload.listId}/task/${payload.task.id}`,
-      payload.task)
+    let res = await http.patch(`/list/${payload.listId}/task/${payload.task.id}`, payload.task)
     await commit('UPDATE_TASK_ITEMS', res.data)
 
     // update clicked task
@@ -82,12 +88,20 @@ const actions = {
     const res = await http.delete(`/list/${payload.listId}/task/${payload.taskId}`)
     commit('UPDATE_TASK_ITEMS', res.data)
   },
+
+  async getTaskStatistics({ commit }, date) {
+    const res = await http.get(`/taskStatistics/${date}`)
+    commit('UPDATE_TASK_STATISTICS', res.data)
+  },
 }
 
 const getters = {
   taskItems: state => state.taskItems,
   clickedTaskId: state => state.clickedTaskId,
   clickedTask: state => state.clickedTask,
+  taskStatistics: state => state.taskStatistics,
+  completedTasks: state => state.taskStatistics.filter(task => task.isCompleted === true),
+  notCompletedTasks: state => state.taskStatistics.filter(task => task.isCompleted === false),
 }
 
 const taskModule = {
