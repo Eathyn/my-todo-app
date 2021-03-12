@@ -18,7 +18,7 @@ export default {
     TaskOptions,
   },
   computed: {
-    ...mapGetters(['taskOptions', 'clickedList'])
+    ...mapGetters(['taskOptions', 'clickedList', 'listOfTodayTasks'])
   },
   data() {
     return {
@@ -31,16 +31,36 @@ export default {
   methods: {
     ...mapActions(['addTaskItem', 'updateTaskOptions']),
 
-    addTask() {
-      this.$store.dispatch('addTaskItem', {
+    async addTask() {
+      const [ clickedListId, listOfTodayId ] = [ this.clickedList.id, this.listOfTodayTasks.id ]
+      const task = {
         selected: this.clickedList.id,
         model: this.model,
         taskOptions: this.taskOptions,
-      })
+      }
+      // automatically set date of task options to date of today if click today list
+      if (clickedListId === listOfTodayId) {
+        const [year, month, day] = new Date().toLocaleDateString().split('/')
+        task.taskOptions.date = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`
+      }
+      await this.$store.dispatch('addTaskItem', task)
       this.model.name = ''
+      this.initTaskOptions()
     },
     toggleTaskOptions() {
       this.display = this.display === 'none' ? 'block' : 'none'
+    },
+    // set taskOptions to default
+    initTaskOptions() {
+      const initial = {
+        date: '',
+        period: {
+          startingTime: '',
+          endTime: '',
+        },
+        duration: '',
+      }
+      this.$store.dispatch('updateTaskOptions', initial)
     },
   },
 }
