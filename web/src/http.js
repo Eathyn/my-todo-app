@@ -7,10 +7,8 @@ const http = axios.create({
 // axios request interceptor
 http.interceptors.request.use(config => {
   config.headers.Authorization = `Bearer ${localStorage.token}`
-
   return config
 }, err => {
-
   return Promise.reject(err)
 })
 
