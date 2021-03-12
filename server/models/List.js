@@ -6,7 +6,7 @@ const listSchema = mongoose.Schema({
     type: String,
   },
   tasks: [{ type: Schema.Types.ObjectId, ref: 'Task' }],
-  createdDate: {
+  date: {
     type: String,
   }
 })
