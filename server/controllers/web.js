@@ -16,18 +16,25 @@ exports.register = async (req, res) => {
   }
 
   try {
+    const date = new Date()
+    const formatted = `${date.getFullYear().toString()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`
+    const listToday = await List.create({
+      name: '今天',
+      tasks: [],
+      date: formatted,
+    })
     await User.create({
       email: req.body.email,
       name: req.body.name,
       password: req.body.password,
       role: 'user',
+      listTodayId: listToday._id,
     })
   } catch (e) {
     return res.status(500).json({
       message: '服务器出错'
     })
   }
-
   return res.status(200).json({
     message: '用户注册成功'
   })
@@ -95,12 +102,10 @@ exports.createList = async (req, res, next) => {
 }
 
 exports.getLists = async (req, res) => {
-  const user = await User.populate(req.user, {
-    path: 'lists',
-  })
+  const user = await User.populate(req.user, { path: 'lists' })
   const lists = user.lists.map(list => ({
-    id: list['_id'],
-    name: list['name'],
+    id: list._id,
+    name: list.name,
   }))
   res.json(lists)
 }
@@ -129,14 +134,14 @@ exports.getList = async (req, res) => {
     const yyyy = dateOfToday.getFullYear()
     dateOfToday = `${yyyy}-${mm}-${dd}`
 
-    if (list.createdDate !== dateOfToday) {
+    if (list.date !== dateOfToday) {
       // delete list
       await List.findByIdAndDelete(listId)
 
       // create a new list
       listOfTodayTasks = await List.create({
         name: '今天',
-        createdDate: dateOfToday,
+        date: dateOfToday,
         tasks: [],
       })
 
@@ -156,7 +161,6 @@ exports.getList = async (req, res) => {
   }
 
   const populatedList = await List.findById(listId).populate('tasks')
-  console.log(populatedList)
 
   const filteredTasks = await populatedList.tasks.map(task => ({
     id: task._id,
@@ -186,14 +190,27 @@ exports.modifyList = async (req, res, next) => {
 }
 
 exports.deleteList = async (req, res, next) => {
+  const userId = req.user._id
   const listId = req.params.id
-  const list = await List.findById(listId).populate('tasks')
 
+  // delete list id in user document
+  const user = await User.findById(userId)
+  const listLen = user.lists.length
+  for (let i = 0; i < listLen; i++) {
+    // note: typeof user.lists[i] === 'object'
+    if (user.lists[i].toString() === listId) {
+      user.lists.splice(i, 1)
+      break
+    }
+  }
+  user.save()
+
+  // delete list and tasks in that list
+  const list = await List.findById(listId).populate('tasks')
   for (const task of list.tasks) {
     await Task.findByIdAndDelete(task._id)
   }
   await List.findByIdAndDelete(listId)
-
   await next()
 }
 
@@ -215,18 +232,21 @@ exports.getTasks = async (req, res) => {
 }
 
 exports.addTask = async (req, res) => {
-  let list = await List.findById(req.params.listId)
+  const listId = req.params.listId
+  // create task and push task id into list
   const task = await Task.create(req.body)
-  await list.tasks.push(task._id)
+  const list = await List.findById(listId)
+  list.tasks.push(task._id)
   await list.save()
 
-  list = await List.populate(list, 'tasks')
-
-  const tasks = list.tasks.map(task => ({
-    id: task['_id'],
-    name: task['name'],
-  }))
-
+  // filter task properties
+  const listPopulated = await List.populate(list, 'tasks')
+  const tasks = listPopulated.tasks.map(task => {
+    return {
+      id: task._id,
+      name: task.name,
+    }
+  })
   res.json(tasks)
 }
 
@@ -298,106 +318,23 @@ exports.getTaskCountdown = async (req, res) => {
   res.json(modifiedTask)
 }
 
-exports.getListOfAllTasks = async (req, res) => {
-  // send the list to client if found
-  let listOfAllTasks = await List.findOne({ name: '所有' })
-
-  // create the list of all tasks if doesn't exist
-  if (!listOfAllTasks) {
-    // create list
-    listOfAllTasks = await List.create({
-      name: '所有',
-      tasks: [],
-    })
-
-    // find all lists
-    const lists = await List.find({})
-
-    // add all tasks to listOfAllTasks
-    for (const list of lists) {
-      let tasks = list.tasks
-      for (const task of tasks) {
-        listOfAllTasks.tasks.push(task)
-      }
-    }
-
-    // save list
-    await listOfAllTasks.save()
-  }
-
-  // filter some useless properties
-  listOfAllTasks = {
-    name: listOfAllTasks.name,
-    id: listOfAllTasks._id,
-  }
-
-  res.json(listOfAllTasks)
-}
-
 exports.getListOfTodayTasks = async (req, res) => {
-  const list = await List.findOne({ name: '今天' })
-
-  if (!list) {  // list not found
-    const dateOfToday = getDateOfToday()
-    const listOfTodayTasks =  await createListOfTodayTasks(dateOfToday)
-    await pushTasks(listOfTodayTasks, dateOfToday)
-
-    res.json({
-      id: listOfTodayTasks._id,
-      name: listOfTodayTasks.name,
-    })
-  } else {  // list found
-    const dateOfToday = getDateOfToday()
-
-    if (list.createdDate === dateOfToday) {
-      res.json({
-        name: list.name,
-        id: list._id,
-      })
-    } else {
-      // delete list
-      await List.findByIdAndDelete(list._id)
-
-      const listOfTodayTasks = await createListOfTodayTasks(dateOfToday)
-      await pushTasks(listOfTodayTasks, dateOfToday)
-
-      res.json({
-        name: listOfTodayTasks.name,
-        id: listOfTodayTasks._id,
-      })
-    }
+  const { listTodayId } = req.user
+  const date = new Date()
+  const formattedDate = `${date.getFullYear().toString()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`
+  // clean all task ids in list and push ids of today task
+  const listToday = await List.findByIdAndUpdate(listTodayId, { date: formattedDate, tasks: [] })
+  console.log(listToday)
+  const tasks = await Task.find({ 'options.date': formattedDate })
+  for (const task of tasks) {
+    Array.prototype.push.call(listToday.tasks, task._id)
   }
-
-  // get date of today with yyyy-mm-dd format
-  function getDateOfToday() {
-    let dateOfToday = new Date()
-    const dd = dateOfToday.getDate().toLocaleString().padStart(2, '0')
-    const mm = (dateOfToday.getMonth() + 1).toLocaleString().padStart(2, '0')
-    const yyyy = dateOfToday.getFullYear()
-    dateOfToday = `${yyyy}-${mm}-${dd}`
-
-    return dateOfToday
-  }
-
-  // create a list which date is today
-  async function createListOfTodayTasks(dateOfToday) {
-    return await List.create({
-      name: '今天',
-      tasks: [],
-      createdDate: dateOfToday,
-    })
-  }
-
-  // push tasks which date is same with listOfTodayTasks
-  async function pushTasks(listOfTodayTasks, dateOfToday) {
-    let tasks = await Task.find({ 'options.date': dateOfToday })
-
-    for (const task of tasks) {
-      listOfTodayTasks.tasks.push(task._id)
-    }
-
-    await listOfTodayTasks.save()
-  }
+  await listToday.save()
+  res.send({
+    id: listToday._id,
+    name: listToday.name,
+    date: listToday.date,
+  })
 }
 
 exports.getTaskStatistics = async (req, res) => {
@@ -429,4 +366,37 @@ exports.getTaskStatistics = async (req, res) => {
   }
 
   res.send(taskStatistics)
+}
+
+/* ----- Countdown ----- */
+exports.getCountdownLists = async (req, res) => {
+  const user = await User.populate(req.user, { path: 'lists' })
+  const lists = user.lists.map(list => {
+    return {
+      id: list._id,
+      name: list.name,
+    }
+  })
+  let listOfToday = await List.findById(req.user.listTodayId)
+  const { _id: id, name } = listOfToday
+  listOfToday = { id, name }
+  lists.unshift(listOfToday)
+  res.json(lists)
+}
+
+exports.getCountdownTasks = async (req, res) => {
+  const listId = req.params.listId
+  let list = null
+  let tasks = null
+
+  list = listId === req.user.listTodayId ?
+    await List.populate(await List.findById(req.user.listTodayId), 'tasks') :
+    await List.populate(await List.findById(listId), 'tasks')
+  tasks = list.tasks.map(task => {
+    return {
+      id: task._id,
+      name: task.name,
+    }
+  })
+  res.json(tasks)
 }
