@@ -1,27 +1,21 @@
 <template>
-  <div v-bind:class="{ task: taskItem,
-    finishedTask: model.isCompleted }" @contextmenu.prevent="showTaskMenu"
-    @click="showTaskDetails">
+  <div v-bind:class="{ task: taskItem, finishedTask: model.isCompleted }" @contextmenu.prevent="showTaskMenu" @click="showTaskDetails">
     <div class="isTaskCompleted">
       <label for="taskCompletionStatus"></label>
-      <input type="checkbox" id="taskCompletionStatus" v-model="model.isCompleted"
-             @click="updateCompletionStatus">
+      <input type="checkbox" id="taskCompletionStatus" v-model="model.isCompleted" @click="updateCompletionStatus">
     </div>
     <div class="taskContent">
       {{ taskItem.name }}
     </div>
     <div class="icons">
-      <span class="icon-start" @click="startCountdown">
+      <span class="icon-start">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-play"></use>
         </svg>
       </span>
-      <span class="icon-pause-end" @click.stop="stopCountdown">
+      <span class="icon-pause-end">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-suspended"></use>
-        </svg>
-        <svg class="icon" aria-hidden="true" >
-          <use xlink:href="#icon-stop"></use>
         </svg>
       </span>
     </div>
@@ -51,8 +45,7 @@ export default {
     ...mapGetters(['clickedTaskId', 'clickedTask', 'intervalId', 'clickedList'])
   },
   methods: {
-    ...mapActions(['updateTaskMenu', 'updateClickedTaskId', 'getClickedTask',
-      'updateTaskCountdown', 'startCountdown', 'stopCountdown']),
+    ...mapActions(['updateTaskMenu', 'updateClickedTaskId', 'getClickedTask', 'updateTaskCountdown']),
 
     showTaskMenu(event) {
       const taskMenu = {
@@ -69,19 +62,9 @@ export default {
       this.$store.dispatch('getClickedTask', this.clickedTaskId)
     },
 
-    startCountdown() {
-      this.$store.dispatch('updateClickedTaskId', this.taskItem.id)
-      this.$store.dispatch('updateTaskCountdown', this.clickedTaskId)
-      this.$store.dispatch('startCountdown')
-    },
-    stopCountdown() {
-      this.$store.dispatch('stopCountdown')
-    },
-
     async updateCompletionStatus() {
       // get clicked task
       await this.$store.dispatch('getClickedTask', this.taskItem.id)
-
       // modify task completion status
       const task = {
         id: this.clickedTask.id,
@@ -89,13 +72,11 @@ export default {
         name: this.clickedTask.name,
         options: this.clickedTask.options,
       }
-
       // set payload
       const payload = {
         listId: this.clickedList.id,
         task,
       }
-
       // update database
       await this.$store.dispatch('updateClickedTask', payload)
     },
