@@ -1,7 +1,6 @@
 <template>
   <div id="taskDetails">
     <div v-if="clickedTask === null"></div>
-
     <div v-else>
       <h3 class="taskName">{{ clickedTask.name }}</h3>
       <div class="taskOptions">
@@ -19,9 +18,6 @@
         </div>
         <div class="focusAmount">
           <span>已专注次数: {{ clickedTask.pomodoroAmount }}</span>
-        </div>
-        <div class="totalFocusTime">
-          <span>总共专注时间: {{ clickedTask.pomodoroAmount * pomodoro.minute }}</span>
         </div>
       </div>
     </div>
