@@ -1,19 +1,16 @@
 <template>
   <div id="right-view">
-    <Pomodoro/>
-    <TaskDetails/>
+    <Countdown/>
   </div>
 </template>
 
 <script>
-import Pomodoro from './Pomodoro'
-import TaskDetails from './TaskDetails'
+import Countdown from './Countdown'
 
 export default {
   name: 'RightView',
   components: {
-    Pomodoro,
-    TaskDetails,
+    Countdown,
   },
 }
 </script>
