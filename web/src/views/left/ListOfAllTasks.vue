@@ -1,9 +1,5 @@
 <template>
-  <li v-if="!listOfAllTasks">
-    listOfAllTasks is null
-  </li>
-
-  <li v-else @click="getTasksOfAllLists" :id="listOfAllTasks.id">
+  <li v-if="listOfAllTasks" @click="getTasksOfAllLists" :id="listOfAllTasks.id">
     <span>
       <svg class="icon" aria-hidden="true">
         <use xlink:href="#icon-category"></use>
