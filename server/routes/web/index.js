@@ -9,8 +9,8 @@ module.exports = app => {
 
   /* ----- List ----- */
   router.get('/list/all', webController.findUser, webController.getLists)
-  router.get('/listOfAllTasks', webController.getListOfAllTasks)
-  router.get('/listOfTodayTasks', webController.getListOfTodayTasks)
+  // router.get('/listOfAllTasks', webController.findUser, webController.getListOfAllTasks)
+  router.get('/listOfTodayTasks', webController.findUser, webController.getListOfTodayTasks)
   router.get('/list/:listId', webController.getList)
   router.post('/list', webController.findUser, webController.createList, webController.getLists)
   router.patch('/list', webController.findUser, webController.modifyList, webController.getLists)
@@ -28,6 +28,10 @@ module.exports = app => {
   router.get('/pomodoro', webController.getPomodoro)
   router.get('/taskCountdown/:taskId', webController.getTaskCountdown)
   router.patch('/pomodoro/duration', )
+
+  /* ----- Countdown  -----*/
+  router.get('/countdown/list/all', webController.findUser, webController.getCountdownLists)
+  router.get('/countdown/:listId/task/all', webController.findUser, webController.getCountdownTasks)
 
   app.use('/web/api', router)
 }
